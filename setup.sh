@@ -2,5 +2,5 @@
 
 chmod +x ./*.sh
 
-./os-update.sh
-./nginx.sh
+./0-os-update.sh
+./1-nginx.sh
