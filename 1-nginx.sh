@@ -3,8 +3,6 @@
 sudo apt install -y nginx
 
 sudo systemctl enable nginx
-sudo service nginx stop
-sudo service nginx start
 sudo ufw allow 'Nginx HTTP'
 
 sudo > /etc/nginx/sites-available/default
@@ -24,7 +22,11 @@ echo<EOF
         server_name _;
     }
 EOF
+
+sudo sed -i 's/TLSv1 //' /etc/nginx/nginx.conf
+sudo sed -i 's/TLSv1.1 //' /etc/nginx/nginx.conf
     
+sudo service nginx restart
     
     
     
