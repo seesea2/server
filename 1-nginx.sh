@@ -1,8 +1,9 @@
 #!/bin/bash
 
-sudo apt install nginx -y
+sudo apt install -y nginx
 
 sudo systemctl enable nginx
+sudo service nginx stop
 sudo service nginx start
 sudo ufw allow 'Nginx HTTP'
 
