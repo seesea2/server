@@ -3,19 +3,19 @@
 #####################################################
 
 chmod +x ./*.sh
+source config.conf
+cat <config.conf
 
 # upgrade os to latest
 source 0-os.sh
 
-source config.conf
 source mail.sh
 
+source 1-nginx.sh
+source 2-letsencrypt.sh
+source 3-mysql.sh
+source 4-postfixadmin.sh
+source 5-postfix.sh
+source 6-dovecot.sh
 
-myDomain = insg.tk
-# ./1-nginx.sh
-
-./2-nodejs.sh
-
-# ./10-letsencrypt.sh
-
-# ./90-os-welcome.sh
+./10-nodejs.sh
