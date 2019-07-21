@@ -1,2 +1,3 @@
 # server
-bash shell for ubuntu email, website server auto setup
+bash shell to setup email server and website server
+
