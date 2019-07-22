@@ -8,15 +8,14 @@ mkdir -p /var/lib/letsencrypt/.well-known
 chgrp www-data /var/lib/letsencrypt
 chmod g+s /var/lib/letsencrypt
 
-myString = '
-  location ^~ /.well-known/acme-challenge/ {
-    allow all;
-    root /var/lib/letsencrypt/;
-    default_type "text/plain";
-    try_files $uri =404;
-  }
-'
-cat $myString >/etc/nginx/snippets/letsencrypt.conf
+{
+  echo '  location ^~ /.well-known/acme-challenge/ {'
+  echo "    allow all;"
+  echo "    root /var/lib/letsencrypt/;"
+  echo '    default_type "text/plain";'
+  echo '    try_files $uri =404;'
+  echo "  }"
+} >/etc/nginx/snippets/letsencrypt.conf
 
 nginx -t
 service nginx reload
