@@ -2,13 +2,14 @@
 
 source config.conf
 
-apt-get -y install certbot >/dev/null
+apt-get -y install certbot python-certbot-nginx >/dev/null
 
+rm -R /var/lib/letsencrypt
 mkdir -p /var/lib/letsencrypt/.well-known
 chgrp www-data /var/lib/letsencrypt
 chmod g+s /var/lib/letsencrypt
 
-# certbot certonly --agree-tos --email yc@insg.xyz --webroot -w /var/lib/letsencrypt/ -d ${myDomain} -d *.${myDomain}
+certbot certonly --agree-tos --email yc@insg.xyz --webroot -w /var/lib/letsencrypt/ -d ${myDomain} -d *.${myDomain}
 
 # {
 #   echo "  server { "
