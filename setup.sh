@@ -11,8 +11,6 @@ chmod +x ./*.sh >/dev/null
 # upgrade os to latest
 ./0-os.sh
 
-./mail.sh
-
 ./1-nginx.sh
 ./2-letsencrypt.sh
 

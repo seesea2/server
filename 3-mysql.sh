@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo
+echo
+echo $(basename "$0")
+
 source config.conf
 
 apt-get -y install mysql-server php-mysql >/dev/null
