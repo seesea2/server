@@ -8,7 +8,14 @@ apt-get -y install nginx >/dev/null
 systemctl enable nginx >/dev/null
 ufw allow 'Nginx Full' >/dev/null
 
->/etc/nginx/snippets/letsencrypt.conf
+{
+  echo '  location ^~ /.well-known/acme-challenge/ {'
+  echo "    allow all;"
+  echo "    root /var/lib/letsencrypt/;"
+  echo '    default_type "text/plain";'
+  echo '    try_files $uri =404;'
+  echo "  }"
+} >/etc/nginx/snippets/letsencrypt.conf
 
 {
   echo "  server { "
@@ -21,7 +28,7 @@ ufw allow 'Nginx Full' >/dev/null
 } >/etc/nginx/sites-available/default
 
 # disable SSL older than TLS1.2
-sed -i 's/TLSv1 //' /etc/nginx/nginx.conf
-sed -i 's/TLSv1.1 //' /etc/nginx/nginx.conf
+sed -i 's/TLSv1 //' /etc/nginx/nginx.conf >/dev/null
+sed -i 's/TLSv1.1 //' /etc/nginx/nginx.conf >/dev/null
 
 service nginx restart >/dev/null
