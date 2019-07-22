@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo '\n\n'$(basename "$0")
+echo "\n\n"$(basename "$0")
 
 source config.conf
 
@@ -42,3 +42,10 @@ chmod -x /etc/update-motd.d/* >/dev/null
 # firewall
 ufw allow ssh >/dev/null
 ufw --force enable
+
+# create new user: vmail
+if ! id -u vmail >/dev/null 2>&1; then
+    groupadd -g 5000 vmail
+    useradd -u 5000 vmail -g vmail -s /usr/sbin/nologin -d /var/mail
+    chown -R vmail: /etc/mail
+fi

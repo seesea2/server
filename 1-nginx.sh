@@ -1,14 +1,11 @@
 #!/bin/bash
 
-echo '\n\n'$(basename "$0")
+echo "\n\n"$(basename "$0")
 
 source config.conf
 
 echo Install and cofigure nginx
 apt-get -y install nginx >/dev/null
-
-systemctl enable nginx >/dev/null
-ufw allow 'Nginx Full' >/dev/null
 
 {
   echo '  location ^~ /.well-known/acme-challenge/ {'
@@ -33,4 +30,6 @@ ufw allow 'Nginx Full' >/dev/null
 sed -i 's/TLSv1 //' /etc/nginx/nginx.conf >/dev/null
 sed -i 's/TLSv1.1 //' /etc/nginx/nginx.conf >/dev/null
 
-service nginx restart >/dev/null
+ufw allow 'Nginx Full' >/dev/null
+systemctl enable nginx >/dev/null
+service nginx start >/dev/null
