@@ -2,6 +2,8 @@
 # Entry point for configuring the system.
 #####################################################
 
+export DEBIAN_FRONTEND=noninteractive
+
 chmod +x ./*.sh
 source config.conf
 cat <config.conf
