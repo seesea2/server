@@ -9,16 +9,14 @@ systemctl enable nginx
 ufw allow 'Nginx Full'
 
 touch /etc/nginx/snippets/letsencrypt.conf
-myString = '
-  server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    server_name _;
-
-    include snippets/letsencrypt.conf;
-
-    return 301 https://$host$request_uri;
-  }
+myString=
+' server { \
+    listen 80 default_server; \
+    listen [::]:80 default_server; \
+    server_name _; \
+    include snippets/letsencrypt.conf; \
+    return 301 https://$host$request_uri; \
+  } \
 '
 cat $myString >/etc/nginx/sites-available/default
 
