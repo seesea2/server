@@ -9,11 +9,7 @@ mkdir -p /var/lib/letsencrypt/.well-known
 chgrp www-data /var/lib/letsencrypt
 chmod g+s /var/lib/letsencrypt
 
-certbot certonly --agree-tos --email yc@insg.xyz --webroot -w /var/lib/letsencrypt/ \
--d www.${myDomain} \ 
--d ${myDomain} \
--d mail.${myDomain} \
--d pfa.${myDomain}
+certbot certonly --agree-tos --email yc@insg.xyz --webroot -w /var/lib/letsencrypt/ -d www.${myDomain} -d ${myDomain} -d mail.${myDomain} -d pfa.${myDomain}
 
 {
   echo "  server { "
