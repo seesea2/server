@@ -13,7 +13,8 @@ source config.conf
 ./mail.sh
 
 ./1-nginx.sh
-#source 2-letsencrypt.sh
+./2-letsencrypt.sh
+
 # source 3-mysql.sh
 # source 4-postfixadmin.sh
 # source 5-postfix.sh

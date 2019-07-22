@@ -2,52 +2,62 @@
 
 source config.conf
 
-apt-get -y install nginx
+echo Install and cofigure nginx
+apt-get -y install nginx >/dev/null
 
 systemctl enable nginx
 ufw allow 'Nginx Full'
 
-nginxConf = "
+touch /etc/nginx/snippets/letsencrypt.conf
+myString = '
   server {
     listen 80 default_server;
     listen [::]:80 default_server;
     server_name _;
 
-  include snippets/letsencrypt.conf;
+    include snippets/letsencrypt.conf;
 
     return 301 https://$host$request_uri;
   }
-    
+'
+cat $myString >/etc/nginx/sites-available/default
+
+myString = "
   server {
     listen 443 ssl default_server;
     listen [::]:443 default_server;
     server_name ${myDomain};
 
-    ssl_certificate           /etc/letsencrypt/live/${myDomain}/fullchain.pem; 
-    ssl_certificate_key       /etc/letsencrypt/live/${myDomain}/privkey.pem; 
-    ssl_trusted_certificate   /etc/letsencrypt/live/${myDomain}/chain.pem; 
+    ssl_certificate           /etc/letsencrypt/live/${myDomain}/fullchain.pem;
+    ssl_certificate_key       /etc/letsencrypt/live/${myDomain}/privkey.pem;
+    ssl_trusted_certificate   /etc/letsencrypt/live/${myDomain}/chain.pem;
 
-  include snippets/letsencrypt.conf;
+    include snippets/letsencrypt.conf;
     location / {
       proxy_pass http://localhost:8080;
     }
   }
+"
+cat $myString >>/etc/nginx/sites-available/default
 
+myString = "
   server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
     server_name mail.${myDomain};
 
-    ssl_certificate           /etc/letsencrypt/live/${myDomain}/fullchain.pem; 
-    ssl_certificate_key       /etc/letsencrypt/live/${myDomain}/privkey.pem; 
-    ssl_trusted_certificate   /etc/letsencrypt/live/${myDomain}/chain.pem; 
+    ssl_certificate           /etc/letsencrypt/live/${myDomain}/fullchain.pem;
+    ssl_certificate_key       /etc/letsencrypt/live/${myDomain}/privkey.pem;
+    ssl_trusted_certificate   /etc/letsencrypt/live/${myDomain}/chain.pem;
 
     root /var/www/roundcube;
     index index.php;
-
+"
+myString = $myString'
     location / {
       try_files $uri $uri/ /index.php;
     }
+
     location ~* \.php$ {
       fastcgi_split_path_info ^(.+?\.php)(/.*)$;
       if (!-f $document_root$fastcgi_script_name) {return 404;}
@@ -57,22 +67,27 @@ nginxConf = "
       fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     }
   }
+'
+cat $myString >>/etc/nginx/sites-available/default
 
+myString = "
   server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
     server_name pfa.${myDomain};
 
-    ssl_certificate           /etc/letsencrypt/live/${myDomain}/fullchain.pem; 
-    ssl_certificate_key       /etc/letsencrypt/live/${myDomain}/privkey.pem; 
-    ssl_trusted_certificate   /etc/letsencrypt/live/${myDomain}/chain.pem; 
+    ssl_certificate           /etc/letsencrypt/live/${myDomain}/fullchain.pem;
+    ssl_certificate_key       /etc/letsencrypt/live/${myDomain}/privkey.pem;
+    ssl_trusted_certificate   /etc/letsencrypt/live/${myDomain}/chain.pem;
 
     root /var/www/postfixadmin;
     index index.php;
-
+"
+myString = $myString'
     location / {
       try_files $uri $uri/ /index.php;
     }
+
     location ~* \.php$ {
       fastcgi_split_path_info ^(.+?\.php)(/.*)$;
       if (!-f $document_root$fastcgi_script_name) {return 404;}
@@ -82,8 +97,8 @@ nginxConf = "
       fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     }
   }
-"
-cat $nginxConf >/etc/nginx/sites-available/default 
+'
+cat $myString >>/etc/nginx/sites-available/default
 
 # disable SSL older than TLS1.2
 sed -i 's/TLSv1 //' /etc/nginx/nginx.conf

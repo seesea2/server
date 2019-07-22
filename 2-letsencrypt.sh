@@ -2,25 +2,25 @@
 
 source config.conf
 
-sudo apt -y install certbot
+apt -y install certbot
 
-sudo mkdir -p /var/lib/letsencrypt/.well-known
-sudo chgrp www-data /var/lib/letsencrypt
-sudo chmod g+s /var/lib/letsencrypt
+mkdir -p /var/lib/letsencrypt/.well-known
+chgrp www-data /var/lib/letsencrypt
+chmod g+s /var/lib/letsencrypt
 
-sudo cat >/etc/nginx/snippets/letsencrypt.conf <<EOF
+myString = '
   location ^~ /.well-known/acme-challenge/ {
     allow all;
     root /var/lib/letsencrypt/;
     default_type "text/plain";
-    try_files \$uri =404;
+    try_files $uri =404;
   }
-
-EOF
+'
+cat $myString >/etc/nginx/snippets/letsencrypt.conf
 
 nginx -t
-sudo service nginx reload
+service nginx reload
 
-#sudo certbot certonly --agree-tos --email yc@insg.xyz --webroot -w /var/lib/letsencrypt/ -d ${myDomain} -d *.${myDomain}
+# certbot certonly --agree-tos --email yc@insg.xyz --webroot -w /var/lib/letsencrypt/ -d ${myDomain} -d *.${myDomain}
 
 # update-ca-certificates

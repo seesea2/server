@@ -35,8 +35,8 @@ APT::Periodic::AutocleanInterval "7";
 EOF
 
 # disable logon welcome messages
-chmod -x /etc/update-motd.d/*
+chmod -x /etc/update-motd.d/* >/dev/null
 
 # firewall
 ufw allow ssh
-ufw enable
+ufw --force enable
