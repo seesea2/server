@@ -2,7 +2,7 @@
 # Entry point for configuring the system.
 #####################################################
 
-echo "\n\n"$(basename "$0")
+echo $(basename "$0")
 
 export DEBIAN_FRONTEND=noninteractive
 
