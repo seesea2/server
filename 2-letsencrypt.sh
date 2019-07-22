@@ -8,7 +8,7 @@ sudo mkdir -p /var/lib/letsencrypt/.well-known
 sudo chgrp www-data /var/lib/letsencrypt
 sudo chmod g+s /var/lib/letsencrypt
 
-sudo cat >/etc/nginx/snippets/well-known.conf <<EOF
+sudo cat >/etc/nginx/snippets/letsencrypt.conf <<EOF
   location ^~ /.well-known/acme-challenge/ {
     allow all;
     root /var/lib/letsencrypt/;
