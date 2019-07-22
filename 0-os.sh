@@ -1,7 +1,6 @@
 #!/bin/bash
 
-echo
-echo
+printf "\n\n"
 echo "\n\n"$(basename "$0")
 
 source config.conf

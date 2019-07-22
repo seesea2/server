@@ -1,7 +1,6 @@
 #!/bin/bash
 
-echo
-echo
+printf "\n\n"
 echo $(basename "$0")
 
 source config.conf
@@ -9,14 +8,14 @@ source config.conf
 apt-get -y install mysql-server php-mysql >/dev/null
 
 sqlCmd=(
-    "DROP DATABASE IF EXISTS ${mysqlDb}"
-    "CREATE DATABASE ${mysqlDb}"
-    "GRANT ALL PRIVILEGES ON ${mysqlDb}.* TO '${mysqlUser}'@'localhost' IDENTIFIED BY '${mysqlPass}'"
+    "DROP DATABASE IF EXISTS ${myDb}"
+    "CREATE DATABASE ${myDb}"
+    "GRANT ALL PRIVILEGES ON ${myDb}.* TO '${myDbUser}'@'localhost' IDENTIFIED BY '${myDbPass}'"
     "FLUSH PRIVILEGES"
 )
 
 for ((i = 0; i < ${#SQLCMDARRAY[@]}; i++)); do
-    mysql -u root -p ${mysqlPass} -e "${SQLCMDARRAY[$i]}"
+    mysql -u root -p ${myDbPass} -e "${SQLCMDARRAY[$i]}"
     if [[ $? -eq 1 ]]; then
         echo "SQL failed: '${SQLCMDARRAY[$i]}'"
         exit 1
