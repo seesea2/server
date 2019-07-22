@@ -2,18 +2,18 @@
 
 source config.conf
 
-sudo apt -y install nginx
+apt-get -y install nginx
 
-sudo systemctl enable nginx
-sudo ufw allow 'Nginx Full'
+systemctl enable nginx
+ufw allow 'Nginx Full'
 
-sudo cat >/etc/nginx/sites-available/default <<EOF
-  include snippets/letsencrypt.conf;
-
+nginxConf = "
   server {
     listen 80 default_server;
     listen [::]:80 default_server;
     server_name _;
+
+  include snippets/letsencrypt.conf;
 
     return 301 https://$host$request_uri;
   }
@@ -27,6 +27,7 @@ sudo cat >/etc/nginx/sites-available/default <<EOF
     ssl_certificate_key       /etc/letsencrypt/live/${myDomain}/privkey.pem; 
     ssl_trusted_certificate   /etc/letsencrypt/live/${myDomain}/chain.pem; 
 
+  include snippets/letsencrypt.conf;
     location / {
       proxy_pass http://localhost:8080;
     }
@@ -81,10 +82,11 @@ sudo cat >/etc/nginx/sites-available/default <<EOF
       fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     }
   }
-EOF
+"
+cat $nginxConf >/etc/nginx/sites-available/default 
 
 # disable SSL older than TLS1.2
-sudo sed -i 's/TLSv1 //' /etc/nginx/nginx.conf
-sudo sed -i 's/TLSv1.1 //' /etc/nginx/nginx.conf
+sed -i 's/TLSv1 //' /etc/nginx/nginx.conf
+sed -i 's/TLSv1.1 //' /etc/nginx/nginx.conf
 
-sudo service nginx restart
+service nginx restart
