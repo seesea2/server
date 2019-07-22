@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo '\n\n'$(basename "$0")
+
 source config.conf
 
 echo Install and cofigure nginx

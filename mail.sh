@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo '\n\n'$(basename "$0")
+
 # create new user: vmail
 if ! id -u vmail >/dev/null 2>&1; then
     groupadd -g 5000 vmail

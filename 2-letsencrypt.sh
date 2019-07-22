@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo '\n\n'$(basename "$0")
+
 source config.conf
 
 apt-get -y install certbot python-certbot-nginx >/dev/null
