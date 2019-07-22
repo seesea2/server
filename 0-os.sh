@@ -38,5 +38,5 @@ EOF
 chmod -x /etc/update-motd.d/* >/dev/null
 
 # firewall
-ufw allow ssh
+ufw allow ssh >/dev/null
 ufw --force enable

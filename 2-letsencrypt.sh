@@ -2,7 +2,7 @@
 
 source config.conf
 
-apt -y install certbot
+apt -y install certbot >/dev/null
 
 mkdir -p /var/lib/letsencrypt/.well-known
 chgrp www-data /var/lib/letsencrypt
@@ -17,9 +17,9 @@ chmod g+s /var/lib/letsencrypt
   echo "  }"
 } >/etc/nginx/snippets/letsencrypt.conf
 
+certbot certonly --agree-tos --email yc@insg.xyz --webroot -w /var/lib/letsencrypt/ -d ${myDomain} -d *.${myDomain}
+
 nginx -t
 service nginx reload
-
-# certbot certonly --agree-tos --email yc@insg.xyz --webroot -w /var/lib/letsencrypt/ -d ${myDomain} -d *.${myDomain}
 
 # update-ca-certificates

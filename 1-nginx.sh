@@ -5,10 +5,10 @@ source config.conf
 echo Install and cofigure nginx
 apt-get -y install nginx >/dev/null
 
-systemctl enable nginx
-ufw allow 'Nginx Full'
+systemctl enable nginx >/dev/null
+ufw allow 'Nginx Full' >/dev/null
 
-touch /etc/nginx/snippets/letsencrypt.conf
+>/etc/nginx/snippets/letsencrypt.conf
 
 {
   echo "  server { "
@@ -22,9 +22,9 @@ touch /etc/nginx/snippets/letsencrypt.conf
   echo "    listen 443 ssl default_server;"
   echo "    listen [::]:443 default_server;"
   echo "    server_name ${myDomain};"
-  echo "    ssl_certificate         /etc/letsencrypt/live/${myDomain}/fullchain.pem;"
-  echo "    ssl_certificate_key     /etc/letsencrypt/live/${myDomain}/privkey.pem;"
-  echo "    ssl_trusted_certificate /etc/letsencrypt/live/${myDomain}/chain.pem;"
+  # echo "    ssl_certificate         /etc/letsencrypt/live/${myDomain}/fullchain.pem;"
+  # echo "    ssl_certificate_key     /etc/letsencrypt/live/${myDomain}/privkey.pem;"
+  # echo "    ssl_trusted_certificate /etc/letsencrypt/live/${myDomain}/chain.pem;"
   echo "    include snippets/letsencrypt.conf;"
   echo "    location / {"
   echo "      proxy_pass http://localhost:8080;"
@@ -34,9 +34,9 @@ touch /etc/nginx/snippets/letsencrypt.conf
   echo "    listen 443 ssl http2;"
   echo "    listen [::]:443 ssl http2;"
   echo "    server_name mail.${myDomain};"
-  echo "    ssl_certificate           /etc/letsencrypt/live/${myDomain}/fullchain.pem;"
-  echo "    ssl_certificate_key       /etc/letsencrypt/live/${myDomain}/privkey.pem;"
-  echo "    ssl_trusted_certificate   /etc/letsencrypt/live/${myDomain}/chain.pem;"
+  # echo "    ssl_certificate           /etc/letsencrypt/live/${myDomain}/fullchain.pem;"
+  # echo "    ssl_certificate_key       /etc/letsencrypt/live/${myDomain}/privkey.pem;"
+  # echo "    ssl_trusted_certificate   /etc/letsencrypt/live/${myDomain}/chain.pem;"
   echo "    root /var/www/roundcube;"
   echo "    index index.php;"
   echo "    location / {"
@@ -55,9 +55,9 @@ touch /etc/nginx/snippets/letsencrypt.conf
   echo "    listen 443 ssl http2;"
   echo "    listen [::]:443 ssl http2;"
   echo "    server_name pfa.${myDomain};"
-  echo "    ssl_certificate           /etc/letsencrypt/live/${myDomain}/fullchain.pem;"
-  echo "    ssl_certificate_key       /etc/letsencrypt/live/${myDomain}/privkey.pem;"
-  echo "    ssl_trusted_certificate   /etc/letsencrypt/live/${myDomain}/chain.pem;"
+  # echo "    ssl_certificate           /etc/letsencrypt/live/${myDomain}/fullchain.pem;"
+  # echo "    ssl_certificate_key       /etc/letsencrypt/live/${myDomain}/privkey.pem;"
+  # echo "    ssl_trusted_certificate   /etc/letsencrypt/live/${myDomain}/chain.pem;"
   echo "    root /var/www/postfixadmin;"
   echo "    index index.php;"
   echo "    location / {"
@@ -78,4 +78,4 @@ touch /etc/nginx/snippets/letsencrypt.conf
 sed -i 's/TLSv1 //' /etc/nginx/nginx.conf
 sed -i 's/TLSv1.1 //' /etc/nginx/nginx.conf
 
-service nginx restart
+service nginx restart >/dev/null
