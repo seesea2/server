@@ -3,7 +3,7 @@
 source config.conf
 
 sudo apt -y install php-imap php-mbstring # php7.2-imap php7.2-mbstring
-sudo apt -y install postfix postfix-mysql
+sudo DEBIAN_FRONTEND=noninteractive apt -y install postfix postfix-mysql
 sudo service postfix start
 
 sudo postconf -e "myhostname = ${myHost}.${myDomain}"
