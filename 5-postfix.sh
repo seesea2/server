@@ -47,6 +47,19 @@ sudo postconf -e smtpd_sasl_auth_enable = yes
 sudo postconf -e smtpd_sasl_security_options = noanonymous
 sudo postconf -e smtpd_tls_security_level = may
 sudo postconf -e smtpd_tls_auth_only = yes
-sudo postconf -e smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination
+
+sudo postconf -e "virtual_transport = lmtp:unix:private/dovecot-lmtp"
+
+sudo postconf -e 'smtp_tls_security_level = may'
+sudo postconf -e 'smtp_tls_note_starttls_offer = yes'
+sudo postconf -e 'smtpd_tls_loglevel = 1'
+sudo postconf -e 'smtpd_tls_received_header = yes'
+sudo postconf -e 'smtpd_tls_cert_file = /etc/letsencrypt/live/${myDomain}/fullchain.pem'
+sudo postconf -e 'smtpd_tls_key_file = /etc/letsencrypt/live/${myDomain}/privkey.pem'
+
+sudo postconf -e 'smtpd_sasl_local_domain ='
+sudo postconf -e 'broken_sasl_auth_clients = yes'
+sudo postconf -e 'smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination'
+
 
 sudo service postfix restart
