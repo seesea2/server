@@ -3,15 +3,19 @@
 source config.conf
 
 sudo apt -y install php-imap php-mbstring # php7.2-imap php7.2-mbstring
-sudo DEBIAN_FRONTEND=noninteractive apt -y install postfix postfix-mysql
+debconf-set-selections <<< "postfix postfix/mailname string $myDomain"
+debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
+sudo apt -y install postfix postfix-mysql
 sudo service postfix start
 
 sudo postconf -e "myhostname = ${myHost}.${myDomain}"
 sudo postconf -e "mydomain = ${myDomain}"
 sudo postconf -e "myorigin = $mydomain"
-sudo postconf -e "mydestination = $myhostname, $mydomain, localhost"
+sudo postconf -e "mydestination = localhost"
 sudo postconf -e "inet_interfaces = all"
 sudo postconf -e "inet_protocols = all"
+
+IFS=""
 
 sudo mkdir -p /etc/postfix/sql
 sudo cat >/etc/postfix/sql/mysql_virtual_domains_maps.cf <<EOF
@@ -61,5 +65,14 @@ sudo postconf -e 'smtpd_sasl_local_domain ='
 sudo postconf -e 'broken_sasl_auth_clients = yes'
 sudo postconf -e 'smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination'
 
+
+#master.cf config
+sudo postconf -M submission/inet="submission       inet       n       -       -       -       -       smtpd"
+sudo postconf -P submission/inet/syslog_name=postfix/submission
+sudo postconf -P submission/inet/smtpd_tls_security_level=encrypt
+sudo postconf -P submission/inet/smtpd_sasl_auth_enable=yes
+sudo postconf -P submission/inet/smtpd_sasl_auth_type=dovecot
+sudo postconf -P submission/inet/smtpd_sasl_auth_path=private/auth
+sudo postconf -P submission/inet/smtpd_client_restrictions=permit_sasl_authenticated,reject
 
 sudo service postfix restart
