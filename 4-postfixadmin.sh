@@ -3,9 +3,9 @@
 source config.conf
 
 wget -q https://sourceforge.net/projects/postfixadmin/files/latest/download -O postfixadmin.tar.gz
-tar xvf postfixadmin.tar.gz postfixadmin
+tar xvf postfixadmin.tar.gz
 
-install postfixadmin/ /var/www/postfixadmin
+cp -R postfixadmin/ /var/www/postfixadmin
 
 cat >/ar/www/postfixadmin/config.local.php <<EOF
   <?php
@@ -19,4 +19,5 @@ cat >/ar/www/postfixadmin/config.local.php <<EOF
 EOF
 
 mkdir /var/www/postfixadmin/templates_c && chmod 755 -R /var/www/postfixadmin/templates_c
+
 chown -R www-data: /var/www/postfixadmin
