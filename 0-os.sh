@@ -3,7 +3,7 @@
 printf "\n\n"
 echo $(basename "$0")
 
-source config.conf
+source global.conf
 
 # set timezone
 if [[ -f /usr/share/zoneinfo/${myTimeZone} ]]; then
@@ -47,6 +47,6 @@ ufw --force enable
 # create new user: vmail
 if ! id -u vmail >/dev/null 2>&1; then
     groupadd -g 5000 vmail
-    useradd -u 5000 vmail -g vmail -s /usr/sbin/nologin -d /var/mail
-    chown -R vmail: /var/mail
+    useradd -u 5000 vmail -g vmail -s /usr/sbin/nologin -d /var/mail/vmail
+    chown -R vmail: /var/mail/vmail
 fi

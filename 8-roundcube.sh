@@ -1,4 +1,4 @@
-source config.conf
+source global.conf
 
 {
   echo "  server {"
@@ -23,4 +23,3 @@ source config.conf
   echo "    }"
   echo "  }"
 } >>/etc/nginx/sites-available/default
-

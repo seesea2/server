@@ -3,7 +3,7 @@
 printf "\n\n"
 echo $(basename "$0")
 
-source config.conf
+source global.conf
 
 apt-get -y install certbot python-certbot-nginx >/dev/null
 
@@ -59,7 +59,6 @@ fi
   echo "    }"
   echo "  }"
 } >/etc/nginx/sites-available/default
-
 
 echo test nginx
 nginx -t

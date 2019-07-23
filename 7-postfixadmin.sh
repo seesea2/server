@@ -2,8 +2,8 @@
 
 printf "\n\n"
 echo $(basename "$0")
- 
-source config.conf
+
+source global.conf
 
 wget -q https://sourceforge.net/projects/postfixadmin/files/latest/download -O postfixadmin.tar.gz
 tar xvf postfixadmin.tar.gz >/dev/null
@@ -11,7 +11,7 @@ rm postfixadmin.tar.gz
 
 rm -R /var/www/postfixadmin
 cp -f -R postfixadmin-*/ /var/www/postfixadmin
-rm -R postfixadmin-*/ 
+rm -R postfixadmin-*/
 
 cat >/var/www/postfixadmin/config.local.php <<EOF
   <?php
@@ -52,4 +52,3 @@ chown -R www-data: /var/www/postfixadmin
   echo "    }"
   echo "  }"
 } >>/etc/nginx/sites-available/default
-
