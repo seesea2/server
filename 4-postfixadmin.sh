@@ -2,8 +2,8 @@
 
 source config.conf
 
-wget https://sourceforge.net/projects/postfixadmin/files/latest/download
-tar xvf postfixadmin-*.tar.gz postfixadmin
+wget -q https://sourceforge.net/projects/postfixadmin/files/latest/download -O postfixadmin.tar.gz
+tar xvf postfixadmin.tar.gz postfixadmin
 
 install postfixadmin/ /var/www/postfixadmin
 
