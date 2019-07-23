@@ -15,8 +15,8 @@ mkdir -p /var/lib/letsencrypt/.well-known
 chgrp www-data /var/lib/letsencrypt
 chmod g+s /var/lib/letsencrypt
 
-if [["1" == $myGetTLS]]; then
-  certbot certonly --agree-tos --email yc@insg.xyz --webroot -w /var/lib/letsencrypt/ -d www.${myDomain} -d ${myDomain} -d mail.${myDomain} -d pfa.${myDomain}
+if [[ "1" == "$myGetTLS" ]]; then
+  certbot certonly --agree-tos --email yc@insg.xyz --webroot -w /var/lib/letsencrypt/ -d ${myDomain} -d "www.${myDomain}" -d "mail.${myDomain}" -d "pfa.${myDomain}"
 fi
 
 {
@@ -67,7 +67,7 @@ fi
   echo "    ssl_certificate           /etc/letsencrypt/live/${myDomain}/fullchain.pem;"
   echo "    ssl_certificate_key       /etc/letsencrypt/live/${myDomain}/privkey.pem;"
   echo "    ssl_trusted_certificate   /etc/letsencrypt/live/${myDomain}/chain.pem;"
-  echo "    root /var/www/postfixadmin;"
+  echo "    root /var/www/postfixadmin/public;"
   echo "    index index.php;"
   echo "    location / {"
   echo '      try_files $uri $uri/ /index.php;'

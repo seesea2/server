@@ -9,7 +9,8 @@ wget -q https://sourceforge.net/projects/postfixadmin/files/latest/download -O p
 tar xvf postfixadmin.tar.gz >/dev/null
 rm postfixadmin.tar.gz
 
-mv postfixadmin-*/ /var/www/postfixadmin
+cp -f -R postfixadmin-*/ /var/www/postfixadmin
+rm -R postfixadmin-*/ 
 
 cat >/var/www/postfixadmin/config.local.php <<EOF
   <?php
@@ -22,6 +23,6 @@ cat >/var/www/postfixadmin/config.local.php <<EOF
   ?>
 EOF
 
-mkdir /var/www/postfixadmin/templates_c && chmod 755 -R /var/www/postfixadmin/templates_c
+mkdir -p /var/www/postfixadmin/templates_c && chmod 755 -R /var/www/postfixadmin/templates_c
 
 chown -R www-data: /var/www/postfixadmin
