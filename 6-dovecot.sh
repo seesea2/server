@@ -1,17 +1,17 @@
 #!/bin/bash
 
-sudo apt -y install dovecot-imapd dovecot-mysql dovecot-lmtpd dovecot-managesieved dovecot-core
-sudo service dovecot start
+ apt-get -y install dovecot-imapd dovecot-mysql dovecot-lmtpd dovecot-managesieved dovecot-core
+ service dovecot start
 
 #uncomment !include conf.d/*.conf
-sudo sed -i '/\!include conf\.d\/\*\.conf/s/^#//' /etc/dovecot/dovecot.conf
-status = `sudo grep "protocols = imap lmtp" /etc/dovecot/dovecot.conf`
-if [ -z $status ];then
-	sudo echo "protocols = imap lmtp" >> /etc/dovecot/dovecot.conf
+ sed -i '/\!include conf\.d\/\*\.conf/s/^#//' /etc/dovecot/dovecot.conf
+status = `grep "protocols = imap lmtp" /etc/dovecot/dovecot.conf`
+if [ -z $status ]; then
+  echo "protocols = imap lmtp" >> /etc/dovecot/dovecot.conf
 fi
 
-sudo sed -i '/^mail_location =.*/s/^/#/g' /etc/dovecot/conf.d/10-mail.conf #comment default mail_location
-sudo echo "mail_location = maildir:/var/mail/vmail/%d/%n" >> /etc/dovecot/conf.d/10-mail.conf
+ sed -i '/^mail_location =.*/s/^/#/g' /etc/dovecot/conf.d/10-mail.conf #comment default mail_location
+ echo "mail_location = maildir:/var/mail/vmail/%d/%n" >> /etc/dovecot/conf.d/10-mail.conf
 
 sudo sed -i '/^mail_privileged_group =.*/s/^/#/g' /etc/dovecot/conf.d/10-mail.conf
 sudo echo "mail_privileged_group = vmail" >> /etc/dovecot/conf.d/10-mail.conf
@@ -96,9 +96,9 @@ service dict {
 }
 EOF
 
-sudo service dovecot restart
-sudo service postfix restart
+ service dovecot restart
+ service postfix restart
 
 echo "\n\nYour mail server should be accessible now."
-sudo unset $IFS
+unset $IFS
 
