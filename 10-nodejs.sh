@@ -3,22 +3,31 @@
 printf "\n\n"
 echo $(basename "$0")
 
-curl -sL https://deb.nodesource.com/setup_10.x >/dev/null | sudo -E bash -
+source config.conf
+
+myDirectory=/home/${myId}
+
+#curl -sL https://deb.nodesource.com/setup_10.x >/dev/null | sudo -E bash - >/dev/null
 sudo -s<<EOF 
 apt-get update >/dev/null
-apt-get -y install nodejs
+apt-get -y install nodejs >/dev/null
 
 echo install typescript, npm, pm2
-npm i -g typescript >/dev/null
-npm i -g npm >/dev/null
-npm i -g pm2 >/dev/null
+echo npm i -g typescript >/dev/null
+echo npm i -g npm >/dev/null
+echo npm i -g pm2 >/dev/null
+chown -R yc: ${myDirectory}
 EOF
 
-su -c "chown -R yc: ~/"
+
 
 pm2 startup
 pm2 save
 
-wget https://github.com/seesea2/insg.git
+cd ~
+git clone https://github.com/seesea2/insg.git ${myDirectory}
 
-pm2 "insg/dist/server.js"
+su -c "ufw allow 8080"
+npm install --prefix ${myDirectory}/insg
+pm2 start "insg/dist/server.js"
+
