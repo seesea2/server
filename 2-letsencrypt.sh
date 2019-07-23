@@ -7,12 +7,15 @@ source config.conf
 
 apt-get -y install certbot python-certbot-nginx >/dev/null
 
-rm -R /var/lib/letsencrypt
+if [[ -d "/var/lib/letencrypt" ]]; then
+  rm -R /var/lib/letsencrypt
+fi
+
 mkdir -p /var/lib/letsencrypt/.well-known
 chgrp www-data /var/lib/letsencrypt
 chmod g+s /var/lib/letsencrypt
 
-if [[$myGetTLS]]; then
+if [["1" == $myGetTLS]]; then
   certbot certonly --agree-tos --email yc@insg.xyz --webroot -w /var/lib/letsencrypt/ -d www.${myDomain} -d ${myDomain} -d mail.${myDomain} -d pfa.${myDomain}
 fi
 
@@ -80,7 +83,8 @@ fi
   echo "  }"
 } >/etc/nginx/sites-available/default
 
+echo test nginx
 nginx -t
-service nginx reload >/dev/null
+service nginx reload 2>&1 >/dev/null
 
 # update-ca-certificates

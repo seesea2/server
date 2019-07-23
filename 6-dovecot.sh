@@ -1,11 +1,14 @@
 #!/bin/bash
 
+printf "\n\n"
+echo $(basename "$0")
+
  apt-get -y install dovecot-imapd dovecot-mysql dovecot-lmtpd dovecot-managesieved dovecot-core
  service dovecot start
 
 #uncomment !include conf.d/*.conf
- sed -i '/\!include conf\.d\/\*\.conf/s/^#//' /etc/dovecot/dovecot.conf
-status = `grep "protocols = imap lmtp" /etc/dovecot/dovecot.conf`
+sed -i '/\!include conf\.d\/\*\.conf/s/^#//' /etc/dovecot/dovecot.conf
+status= `grep "protocols = imap lmtp" /etc/dovecot/dovecot.conf`
 if [ -z $status ]; then
   echo "protocols = imap lmtp" >> /etc/dovecot/dovecot.conf
 fi

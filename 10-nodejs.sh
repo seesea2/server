@@ -1,13 +1,17 @@
 #!/bin/bash
 
-curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+printf "\n\n"
+echo $(basename "$0")
+
+curl -sL https://deb.nodesource.com/setup_10.x >/dev/null | sudo -E bash -
 sudo -s<<EOF 
-apt-get update
+apt-get update >/dev/null
 apt-get -y install nodejs
 
-npm i -g typescript
-npm i -g npm
-npm i -g pm2
+echo install typescript, npm, pm2
+npm i -g typescript >/dev/null
+npm i -g npm >/dev/null
+npm i -g pm2 >/dev/null
 EOF
 
 su -c "chown -R yc: ~/"
