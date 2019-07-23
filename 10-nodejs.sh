@@ -5,9 +5,9 @@ echo $(basename "$0")
 
 source config.conf
 
-myDirectory=/home/${myId}
+myDirectory="/home/${myId}"
 
-#curl -sL https://deb.nodesource.com/setup_10.x >/dev/null | sudo -E bash - >/dev/null
+#curl -sL https://deb.nodesource.com/setup_12.x >/dev/null | sudo -E bash - >/dev/null
 sudo -s<<EOF 
 apt-get update >/dev/null
 apt-get -y install nodejs >/dev/null
@@ -17,17 +17,17 @@ echo npm i -g typescript >/dev/null
 echo npm i -g npm >/dev/null
 echo npm i -g pm2 >/dev/null
 chown -R yc: ${myDirectory}
+
+rm ${myDirectory}/insg -R -f
 EOF
 
-
-
 pm2 startup
-pm2 save
+pm2 delete all
 
-cd ~
-git clone https://github.com/seesea2/insg.git ${myDirectory}
+git clone https://github.com/seesea2/insg.git ${myDirectory}/insg
 
 su -c "ufw allow 8080"
 npm install --prefix ${myDirectory}/insg
-pm2 start "insg/dist/server.js"
+pm2 start "${myDirectory}/insg/dist/server.js"
+pm2 save
 

@@ -99,6 +99,7 @@ service dict {
 }
 EOF
 
+ufw allow "Dovecot Secure IMAP"
  service dovecot restart
  service postfix restart
 

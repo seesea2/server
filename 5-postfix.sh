@@ -81,5 +81,9 @@ postconf -e "smtpd_sasl_auth_enable = yes"
  postconf -P submission/inet/smtpd_sasl_auth_path=private/auth
  postconf -P submission/inet/smtpd_client_restrictions=permit_sasl_authenticated,reject
  
+ ufw allow Postfix
+ ufw allow "Postfix SMTPS"
+ ufw allow "Postfix Submission"
 
  service postfix restart
+
