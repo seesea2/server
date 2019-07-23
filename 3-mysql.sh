@@ -5,7 +5,7 @@ echo $(basename "$0")
 
 source config.conf
 
-apt-get -y install mysql-server php-mysql >/dev/null
+apt-get -y install mysql-server php-mysql
 
 sqlCmd=(
     "DROP DATABASE IF EXISTS ${myDb};"
