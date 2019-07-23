@@ -9,15 +9,15 @@ export DEBIAN_FRONTEND=noninteractive
 chmod +x ./*.sh >/dev/null
 
 # upgrade os to latest
-# ./0-os.sh
+# sudo su -c ./0-os.sh
 
-# ./1-nginx.sh
-# ./2-letsencrypt.sh
+# sudo su -c ./1-nginx.sh
+# sudo su -c ./2-letsencrypt.sh
 
-# ./3-mysql.sh
+# sudo su -c ./3-mysql.sh
 
-./4-postfixadmin.sh
-# source 5-postfix.sh
-# source 6-dovecot.sh
+# sudo su -c ./4-postfixadmin.sh
+# sudo su -c source 5-postfix.sh
+# sudo su -c source 6-dovecot.sh
 
 # ./10-nodejs.sh
