@@ -9,21 +9,12 @@ echo Install and cofigure nginx
 apt-get -y install nginx >/dev/null
 
 {
-  echo '  location ^~ /.well-known/acme-challenge/ {'
-  echo "    allow all;"
-  echo "    root /var/lib/letsencrypt/;"
-  echo '    default_type "text/plain";'
-  echo '    try_files $uri =404;'
-  echo "  }"
-} >/etc/nginx/snippets/letsencrypt.conf
-
-{
   echo "  server { "
   echo "    listen 80 default_server;"
   echo "    listen [::]:80 default_server;"
   echo "    server_name _;"
-  echo "    include snippets/letsencrypt.conf;"
   echo "    root /var/www/html;"
+  echo "    index index.html index.nginx-debian.html;"  
   echo "  } "
 } >/etc/nginx/sites-available/default
 
