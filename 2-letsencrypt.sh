@@ -1,7 +1,7 @@
 #!/bin/bash
 
 printf "\n\n"
-echo $(basename "$0")
+echo 'File: '$(basename "$0")
 
 source global.conf
 
@@ -62,6 +62,6 @@ fi
 
 echo test nginx
 nginx -t
-service nginx reload 2>&1 >/dev/null
+service nginx restart >/dev/null 2>&1
 
 # update-ca-certificates

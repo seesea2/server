@@ -1,62 +1,23 @@
 #!/bin/bash
 
 printf "\n\n"
-echo $(basename "$0")
+echo 'File: '$(basename "$0")
 
 apt-get -y install dovecot-imapd dovecot-mysql dovecot-lmtpd dovecot-managesieved dovecot-core
 service dovecot start
 
-#uncomment !include conf.d/*.conf
+# uncomment !include conf.d/*.conf
 sed -i '/\!include conf\.d\/\*\.conf/s/^#//' /etc/dovecot/dovecot.conf
-status= $(grep "protocols = imap lmtp" /etc/dovecot/dovecot.conf)
-if [ -z $status ]; then
-  echo "protocols = imap lmtp" >>/etc/dovecot/dovecot.conf
-fi
 
 sed -i '/^mail_location =.*/s/^/#/g' /etc/dovecot/conf.d/10-mail.conf #comment default mail_location
-echo "mail_location = maildir:/var/mail/vmail/%d/%n" >>/etc/dovecot/conf.d/10-mail.conf
+echo "mail_location = maildir:/var/mail/vmail/%d/%n/Maildir" >>/etc/dovecot/conf.d/10-mail.conf
 
-sudo sed -i '/^mail_privileged_group =.*/s/^/#/g' /etc/dovecot/conf.d/10-mail.conf
-sudo echo "mail_privileged_group = vmail" >>/etc/dovecot/conf.d/10-mail.conf
+sed -i '/^mail_privileged_group =.*/s/^/#/g' /etc/dovecot/conf.d/10-mail.conf
+ echo "mail_privileged_group = vmail" >>/etc/dovecot/conf.d/10-mail.conf
 
-sudo sed -i '/^auth_mechanisms =.*/s/^/#/g' /etc/dovecot/conf.d/10-auth.conf
-sudo echo "auth_mechanisms = plain" >>/etc/dovecot/conf.d/10-auth.conf
+echo "protocols = imap lmtp sieve" >>/etc/dovecot/local.conf
 
-sudo sed -i '/\!include auth-system\.conf\.ext/s/^/#/g' /etc/dovecot/conf.d/10-auth.conf
-
-sudo sed -i '/\!include auth-sql\.conf\.ext/s/^#//g' /etc/dovecot/conf.d/10-auth.conf
-
-if [[ ! -f /etc/dovecot/conf.d/auth-sql.conf.ext.orig ]]; then
-  mv /etc/dovecot/conf.d/auth-sql.conf.ext /etc/dovecot/conf.d/auth-sql.conf.ext.orig
-fi
-
-sudo echo >/etc/dovecot/conf.d/auth-sql.conf.ext <<EOF
-passdb {
-  driver = sql
-  args = /etc/dovecot/dovecot-sql.conf.ext
-}
-userdb {
-  driver = static
-  args = uid=vmail gid=vmail home=/var/mail/vmail/%d/%n
-}
-EOF
-
-sudo sed -i '/^driver =.*/s/^/#/g' /etc/dovecot/dovecot-sql.conf.ext
-sudo echo "driver = mysql" >>/etc/dovecot/dovecot-sql.conf.ext
-
-sudo sed -i '/^connect =.*/s/^/#/g' /etc/dovecot/dovecot-sql.conf.ext
-sudo echo "connect = host=127.0.0.1 dbname=$mysqlDb user=$mysqlUser password=$mysqlPass" >>/etc/dovecot/dovecot-sql.conf.ext
-
-sudo sed -i '/^default_pass_scheme =.*/s/^/#/g' /etc/dovecot/dovecot-sql.conf.ext
-sudo echo "default_pass_scheme = SHA512-CRYPT" >>/etc/dovecot/dovecot-sql.conf.ext
-
-sudo sed -i '/^password_query =.*/s/^/#/g' /etc/dovecot/dovecot-sql.conf.ext
-sudo echo "password_query = SELECT email as user, password FROM virtual_users WHERE email='%u';" >>/etc/dovecot/dovecot-sql.conf.ext
-
-sudo chown -R vmail:dovecot /etc/dovecot
-sudo chmod -R o-rwx /etc/dovecot
-
-sudo echo >/etc/dovecot/conf.d/10-master.conf <<EOF
+echo >/etc/dovecot/conf.d/10-master.conf <<EOF
 service imap-login {
   inet_listener imap {
     port = 0
@@ -68,7 +29,7 @@ service imap-login {
 }
 service lmtp {
   unix_listener /var/spool/postfix/private/dovecot-lmtp {
-   mode = 0600
+   mode = 0660
    user = postfix
    group = postfix
   }
@@ -84,13 +45,12 @@ service auth {
   unix_listener auth-userdb {
    mode = 0600
    user = vmail
-   #group =
   }
   # Auth process is run as this user.
   user = dovecot
 }
 service auth-worker {
-  user = vmail
+  # user = vmail
 }
 service dict {
   unix_listener dict {
@@ -98,10 +58,51 @@ service dict {
 }
 EOF
 
+# liych note: conf.d/10-ssl.conf
+# ssl_cert = </etc/letsencrypt/live/mail.insg.xyz/fullchain.pem
+# ssl_key = </etc/letsencrypt/live/mail.insg.xyz/privkey.pem
+
+echo >/etc/dovecot/conf.d/auth-sql.conf.ext <<EOF
+passdb {
+  driver = sql
+  args = /etc/dovecot/dovecot-sql.conf.ext
+}
+# userdb {
+#   driver = static
+#   args = uid=vmail gid=vmail home=/var/mail/vmail/%d/%n
+# }
+EOF
+
+# conf.d/20-lmtp.conf:    postmaster_address = postmaster@insg.xyz
+
+# liych end
+
+# sed -i '/^auth_mechanisms =.*/s/^/#/g' /etc/dovecot/conf.d/10-auth.conf
+# echo "auth_mechanisms = plain" >>/etc/dovecot/conf.d/10-auth.conf
+
+# sed -i '/\!include auth-system\.conf\.ext/s/^/#/g' /etc/dovecot/conf.d/10-auth.conf
+# sed -i '/\!include auth-sql\.conf\.ext/s/^#//g' /etc/dovecot/conf.d/10-auth.conf
+
+
+sed -i '/^driver =.*/s/^/#/g' /etc/dovecot/dovecot-sql.conf.ext
+echo "driver = mysql" >>/etc/dovecot/dovecot-sql.conf.ext
+sed -i '/^connect =.*/s/^/#/g' /etc/dovecot/dovecot-sql.conf.ext
+echo "connect = host=127.0.0.1 dbname=$myDb user=$myDbUser password=$myDbPass" >>/etc/dovecot/dovecot-sql.conf.ext
+
+sed -i '/^default_pass_scheme =.*/s/^/#/g' /etc/dovecot/dovecot-sql.conf.ext
+echo "default_pass_scheme = SHA512-CRYPT" >>/etc/dovecot/dovecot-sql.conf.ext
+
+sed -i '/^password_query =.*/s/^/#/g' /etc/dovecot/dovecot-sql.conf.ext
+echo "password_query = SELECT email as user, password FROM virtual_users WHERE email='%u';" >>/etc/dovecot/dovecot-sql.conf.ext
+
+chown -R vmail:dovecot /etc/dovecot
+chmod -R o-rwx /etc/dovecot
+
+
 ufw allow "Dovecot Secure IMAP"
 
 service dovecot restart
 service postfix restart
 
-echo "\n\nYour mail server should be accessible now."
+echo "\n\nYour mail server should be working now."
 unset $IFS

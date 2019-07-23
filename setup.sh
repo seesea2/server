@@ -4,20 +4,24 @@
 
 echo $(basename "$0")
 
-export DEBIAN_FRONTEND=noninteractive
+# export DEBIAN_FRONTEND=noninteractive
 
 chmod +x ./*.sh >/dev/null
 
 # upgrade os to latest
 sudo su -c ./0-os.sh
 
+# install nginx and SSL/TLS
 sudo su -c ./1-nginx.sh
 sudo su -c ./2-letsencrypt.sh
 
-./2-nodejs.sh
+# nodejs & server
+./3-nodejs.sh
 
-sudo su -c ./3-mysql.sh
-sudo su -c ./4-postfixadmin.sh
+# mail server
+sudo su -c ./4-mysql.sh
 sudo su -c ./5-postfix.sh
 # sudo su -c ./6-dovecot.sh
 
+# sudo su -c ./7-postfixadmin.sh
+# sudo su -c ./8-roundcube.sh

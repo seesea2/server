@@ -1,3 +1,6 @@
+#!/bin/bash
+
+echo 'File: '$(basename "$0")
 source global.conf
 
 {

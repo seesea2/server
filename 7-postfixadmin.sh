@@ -1,7 +1,7 @@
 #!/bin/bash
 
 printf "\n\n"
-echo $(basename "$0")
+echo 'File: '$(basename "$0")
 
 source global.conf
 
