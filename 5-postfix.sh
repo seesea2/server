@@ -72,12 +72,17 @@ postconf -e 'broken_sasl_auth_clients = yes'
 postconf -e 'smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination'
 
 #master.cf config
-postconf -M submission/inet="submission       inet       n       -       -       -       -       smtpd"
-postconf -P submission/inet/syslog_name=postfix/submission
-postconf -P submission/inet/smtpd_tls_security_level=encrypt
-postconf -P submission/inet/smtpd_sasl_auth_enable=yes
-postconf -P submission/inet/smtpd_sasl_auth_type=dovecot
-postconf -P submission/inet/smtpd_sasl_auth_path=private/auth
-postconf -P submission/inet/smtpd_client_restrictions=permit_sasl_authenticated,reject
+ postconf -M submission/inet="submission       inet       n       -       -       -       -       smtpd"
+ postconf -P submission/inet/syslog_name=postfix/submission
+ postconf -P submission/inet/smtpd_tls_security_level=encrypt
+ postconf -P submission/inet/smtpd_sasl_auth_enable=yes
+ postconf -P submission/inet/smtpd_sasl_auth_type=dovecot
+ postconf -P submission/inet/smtpd_sasl_auth_path=private/auth
+ postconf -P submission/inet/smtpd_client_restrictions=permit_sasl_authenticated,reject
+ 
+ ufw allow Postfix
+ ufw allow "Postfix SMTPS"
+ ufw allow "Postfix Submission"
 
-service postfix restart
+ service postfix restart
+
