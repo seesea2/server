@@ -25,7 +25,7 @@ echo "${myHost}.${myDomain}" >/etc/mailname
 # upgrade OS and install basic tools
 echo upgrade OS and install basic tools
 apt-get update >/dev/null && apt-get -y upgrade >/dev/null && apt-get -y autoremove >/dev/null
-apt-get -y install git curl wget >/dev/null
+apt-get -y install git curl wget nginx >/dev/null
 
 # Allow apt to install system updates automatically.
 cat >/etc/apt/apt.conf.d/20auto-upgrades <<EOF
