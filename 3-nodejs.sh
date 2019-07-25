@@ -5,26 +5,28 @@ echo 'File: '$(basename "$0")
 
 source global.conf
 
-whoami
-myId=$(!!)
-myDirectory="/home/${myId}"
+myId=$(whoami)
+if [[ "root" == $myId ]]; then
+  myDirectory = "/root/"
+else
+  myDirectory="/home/${myId}"
+fi
 
 sudo -s <<EOF
   curl -sL https://deb.nodesource.com/setup_12.x >/dev/null | sudo -E bash - >/dev/null
   apt-get update >/dev/null
   apt-get -y install nodejs >/dev/null
 
-  echo install typescript, npm, pm2
-  echo npm i -g typescript >/dev/null
-  echo npm i -g npm >/dev/null
-  echo npm i -g pm2 >/dev/null
+  install typescript, npm, pm2
+  npm i -g typescript >/dev/null
+  npm i -g npm >/dev/null
+  npm i -g pm2 >/dev/null
   chown -R ${myId}: ${myDirectory}
 
   rm ${myDirectory}/insg -R
 EOF
 
-pm2 startup
-$(!!)
+sudo env PATH=$PATH:/usr/bin /usr/local/lib/node_modules/pm2/bin/pm2 startup systemd -u ${myId} --hp ${myDirectory}
 pm2 delete all
 
 git clone https://github.com/seesea2/insg.git ${myDirectory}/insg
