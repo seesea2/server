@@ -36,29 +36,29 @@ chmod g+s /var/lib/letsencrypt
 
 if [[ "1" == "$myGetTLS" ]]; then
   certbot certonly --agree-tos --email yc@insg.xyz --webroot -w /var/lib/letsencrypt/ -d ${myDomain} -d "www.${myDomain}" -d "mail.${myDomain}" -d "pfa.${myDomain}"
-fi
 
-{
-  echo "  server { "
-  echo "    listen 80 default_server;"
-  echo "    listen [::]:80 default_server;"
-  echo "    server_name _;"
-  echo "    include snippets/letsencrypt.conf;"
-  echo '    return 301 https://$host$request_uri;'
-  echo "  } "
-  echo "  server { "
-  echo "    listen 443 ssl default_server;"
-  echo "    listen [::]:443 default_server;"
-  echo "    server_name ${myDomain} www.${myDomain};"
-  echo "    ssl_certificate         /etc/letsencrypt/live/${myDomain}/fullchain.pem;"
-  echo "    ssl_certificate_key     /etc/letsencrypt/live/${myDomain}/privkey.pem;"
-  echo "    ssl_trusted_certificate /etc/letsencrypt/live/${myDomain}/chain.pem;"
-  echo "    include snippets/letsencrypt.conf;"
-  echo "    location / {"
-  echo "      proxy_pass http://localhost:8080;"
-  echo "    }"
-  echo "  }"
-} >/etc/nginx/sites-available/default
+  {
+    echo "  server { "
+    echo "    listen 80 default_server;"
+    echo "    listen [::]:80 default_server;"
+    echo "    server_name _;"
+    echo "    include snippets/letsencrypt.conf;"
+    echo '    return 301 https://$host$request_uri;'
+    echo "  } "
+    echo "  server { "
+    echo "    listen 443 ssl default_server;"
+    echo "    listen [::]:443 default_server;"
+    echo "    server_name ${myDomain} www.${myDomain};"
+    echo "    ssl_certificate         /etc/letsencrypt/live/${myDomain}/fullchain.pem;"
+    echo "    ssl_certificate_key     /etc/letsencrypt/live/${myDomain}/privkey.pem;"
+    echo "    ssl_trusted_certificate /etc/letsencrypt/live/${myDomain}/chain.pem;"
+    echo "    include snippets/letsencrypt.conf;"
+    echo "    location / {"
+    echo "      proxy_pass http://localhost:8080;"
+    echo "    }"
+    echo "  }"
+  } >/etc/nginx/sites-available/default
+fi
 
 echo test nginx
 nginx -t
