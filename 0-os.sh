@@ -45,9 +45,10 @@ chmod -x /etc/update-motd.d/* >/dev/null
 ufw allow ssh
 ufw --force enable
 
-echo ================= new user: vmail =================
 # create new user: vmail
 if ! id -u vmail >/dev/null 2>&1; then
+  echo
+  echo ================= new user: vmail =================
   mkdir -p /var/mail/vmail
   groupadd -g 5000 vmail
   useradd -u 5000 vmail -g vmail -s /usr/sbin/nologin -d /var/mail/vmail

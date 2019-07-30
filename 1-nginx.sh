@@ -19,14 +19,17 @@ apt-get -y install nginx php php-fpm php-mysql
   echo "  } "
 } >/etc/nginx/sites-available/default
 
+echo ================= cofigure php7.2-fpm =================
 sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' "/etc/php/7.2/fpm/php.ini"
-sed -i 's/;date.timezoneo =/date.timezone = Asia\/Singapore/' "/etc/php/7.2/fpm/php.ini"
+sed -i 's/;date.timezone =/date.timezone = Asia\/Singapore/' "/etc/php/7.2/fpm/php.ini"
 systemctl restart php7.2-fpm
 
+echo ================= disable TLSv1 & TLSv1.1 =================
 # disable SSL older than TLS1.2
-sed -i 's/TLSv1 //' /etc/nginx/nginx.conf >/dev/null
-sed -i 's/TLSv1.1 //' /etc/nginx/nginx.conf >/dev/null
+sed -i 's/TLSv1 //' /etc/nginx/nginx.conf
+sed -i 's/TLSv1.1 //' /etc/nginx/nginx.conf
 
+echo
 ufw allow 'Nginx Full'
 
 systemctl enable nginx
