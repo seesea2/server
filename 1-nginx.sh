@@ -26,7 +26,7 @@ sed -i 's/;date.timezone =/date.timezone = Asia\/Singapore/' "/etc/php/7.2/fpm/p
 systemctl restart php7.2-fpm
 
 echo
-echo ================= disable TLSv1 & TLSv1.1 =================
+echo ================= disable TLSv1 TLSv1.1 =================
 # disable SSL older than TLS1.2
 sed -i 's/TLSv1 //' /etc/nginx/nginx.conf
 sed -i 's/TLSv1.1 //' /etc/nginx/nginx.conf

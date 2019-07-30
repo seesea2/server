@@ -5,7 +5,8 @@ echo 'File: '$(basename "$0")
 
 source global.conf
 
-echo ============ install certbox ============ 
+echo
+echo ================ install certbox ================ 
 apt-get -y install certbot python-certbot-nginx
 
 if [[ -d "/var/lib/letencrypt" ]]; then
@@ -16,7 +17,7 @@ chgrp www-data /var/lib/letsencrypt
 chmod g+s /var/lib/letsencrypt
 
 echo
-echo ============ update nginx configure ============ 
+echo ================ update nginx configuration ================ 
 {
   echo '  location ^~ /.well-known/acme-challenge/ {'
   echo "    allow all;"
@@ -63,7 +64,7 @@ if [[ "1" == "$myGetTLS" ]]; then
   } >/etc/nginx/sites-available/default
 fi
 
-echo test nginx
+echo test ================ nginx ================
 nginx -t
 service nginx restart
 
