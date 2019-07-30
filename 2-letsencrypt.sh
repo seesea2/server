@@ -5,7 +5,8 @@ echo 'File: '$(basename "$0")
 
 source global.conf
 
-apt-get -y install certbot python-certbot-nginx >/dev/null
+echo ============ install certbox ============ 
+apt-get -y install certbot python-certbot-nginx
 
 if [[ -d "/var/lib/letencrypt" ]]; then
   rm -R /var/lib/letsencrypt
@@ -14,6 +15,8 @@ mkdir -p /var/lib/letsencrypt/.well-known
 chgrp www-data /var/lib/letsencrypt
 chmod g+s /var/lib/letsencrypt
 
+echo
+echo ============ update nginx configure ============ 
 {
   echo '  location ^~ /.well-known/acme-challenge/ {'
   echo "    allow all;"
@@ -62,6 +65,6 @@ fi
 
 echo test nginx
 nginx -t
-service nginx restart >/dev/null 2>&1
+service nginx restart
 
 # update-ca-certificates
