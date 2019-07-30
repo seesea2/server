@@ -13,17 +13,17 @@ else
 fi
 
 sudo -s <<EOF
-  curl -sL https://deb.nodesource.com/setup_12.x >/dev/null | sudo -E bash - >/dev/null
-  apt-get update >/dev/null
-  apt-get -y install nodejs >/dev/null
+curl -sL https://deb.nodesource.com/setup_12.x >/dev/null | sudo -E bash - >/dev/null
+apt-get update >/dev/null
+apt-get -y install nodejs >/dev/null
 
-  install typescript, npm, pm2
-  npm i -g typescript >/dev/null
-  npm i -g npm >/dev/null
-  npm i -g pm2 >/dev/null
-  chown -R ${myId}: ${myDirectory}
+install typescript, npm, pm2
+npm i -g typescript >/dev/null
+npm i -g npm >/dev/null
+npm i -g pm2 >/dev/null
+chown -R ${myId}: ${myDirectory}
 
-  rm ${myDirectory}/insg -R
+rm ${myDirectory}/insg -R
 EOF
 
 sudo env PATH=$PATH:/usr/bin /usr/local/lib/node_modules/pm2/bin/pm2 startup systemd -u ${myId} --hp ${myDirectory}

@@ -29,12 +29,12 @@ apt-get -y install git curl wget nginx >/dev/null
 
 # Allow apt to install system updates automatically.
 cat >/etc/apt/apt.conf.d/20auto-upgrades <<EOF
-  APT::Periodic::MaxAge "7";
-  APT::Periodic::Update-Package-Lists "1";
-  APT::Periodic::Unattended-Upgrade "1";
-  APT::Periodic::Verbose "0";
-  APT::Periodic::Download-Upgradeable-Packages "1";
-  APT::Periodic::AutocleanInterval "7";
+APT::Periodic::MaxAge "7";
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Unattended-Upgrade "1";
+APT::Periodic::Verbose "0";
+APT::Periodic::Download-Upgradeable-Packages "1";
+APT::Periodic::AutocleanInterval "7";
 EOF
 
 # disable logon welcome messages

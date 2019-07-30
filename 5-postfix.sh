@@ -46,29 +46,29 @@ IFS=""
 mkdir -p /etc/postfix/sql
 
 cat >/etc/postfix/sql/mysql_virtual_alias_maps.cf <<EOF
-  user = ${myDbUser}
-  password = ${myDbPass}
-  hosts = 127.0.0.1
-  dbname = ${myDb}
-  query = SELECT goto FROM alias WHERE address='%s' AND active= '1'
+user = ${myDbUser}
+password = ${myDbPass}
+hosts = 127.0.0.1
+dbname = ${myDb}
+query = SELECT goto FROM alias WHERE address='%s' AND active= '1'
 EOF
 postconf -e "virtual_alias_maps = mysql:/etc/postfix/sql/mysql_virtual_alias_maps.cf"
 
 cat >/etc/postfix/sql/mysql_virtual_domains_maps.cf <<EOF
-  user = ${myDbUser}
-  password = ${myDbPass}
-  hosts = 127.0.0.1
-  dbname = ${myDb}
-  query = SELECT domain FROM domain WHERE domain='%s' AND active = '1'
+user = ${myDbUser}
+password = ${myDbPass}
+hosts = 127.0.0.1
+dbname = ${myDb}
+query = SELECT domain FROM domain WHERE domain='%s' AND active = '1'
 EOF
 postconf -e "virtual_mailbox_domains = mysql:/etc/postfix/sql/mysql_virtual_domains_maps.cf"
 
 cat >/etc/postfix/sql/mysql_virtual_mailbox_maps.cf <<EOF
-  user = ${myDbUser}
-  password =  ${myDbPass}
-  hosts = 127.0.0.1
-  dbname =  ${myDb}
-  query = SELECT maildir FROM mailbox WHERE username='%s' AND active = '1'
+user = ${myDbUser}
+password =  ${myDbPass}
+hosts = 127.0.0.1
+dbname =  ${myDb}
+query = SELECT maildir FROM mailbox WHERE username='%s' AND active = '1'
 EOF
 postconf -e "virtual_mailbox_maps = mysql:/etc/postfix/sql/mysql_virtual_mailbox_maps.cf"
 
