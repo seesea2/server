@@ -1,12 +1,13 @@
 #!/bin/bash
 
 printf "\n\n"
-echo 'File: '$(basename "$0")
+echo '================= File: '$(basename "$0")' ================='
+printf "\n"
 
 source global.conf
 
-echo Install and cofigure nginx
-apt-get -y install nginx php php-fpm php-mysql >/dev/null
+echo ================= Install and cofigure nginx =================
+apt-get -y install nginx php php-fpm php-mysql
 
 {
   echo "  server { "
@@ -26,7 +27,7 @@ systemctl restart php7.2-fpm
 sed -i 's/TLSv1 //' /etc/nginx/nginx.conf >/dev/null
 sed -i 's/TLSv1.1 //' /etc/nginx/nginx.conf >/dev/null
 
-ufw allow 'Nginx Full' >/dev/null
+ufw allow 'Nginx Full'
 
-systemctl enable nginx >/dev/null
-service nginx start >/dev/null
+systemctl enable nginx
+service nginx start

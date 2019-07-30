@@ -1,7 +1,8 @@
 #!/bin/bash
 
 printf "\n\n"
-echo 'File: '$(basename "$0")
+echo '================= File: '$(basename "$0")' ================='
+printf "\n"
 
 source global.conf
 
@@ -23,7 +24,7 @@ hostname ${myHost}
 echo "${myHost}.${myDomain}" >/etc/mailname
 
 # upgrade OS and install basic tools
-echo upgrade OS and install basic tools
+echo ================= upgrade OS and install basic tools =================
 apt-get update >/dev/null && apt-get -y upgrade && apt-get -y autoremove
 apt-get -y install git curl wget nginx
 
@@ -44,6 +45,7 @@ chmod -x /etc/update-motd.d/* >/dev/null
 ufw allow ssh
 ufw --force enable
 
+echo ================= new user: vmail =================
 # create new user: vmail
 if ! id -u vmail >/dev/null 2>&1; then
   mkdir -p /var/mail/vmail
