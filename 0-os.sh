@@ -24,7 +24,7 @@ echo "${myHost}.${myDomain}" >/etc/mailname
 
 # upgrade OS and install basic tools
 echo upgrade OS and install basic tools
-apt-get update >/dev/null && apt-get -y upgrade >/dev/null && apt-get -y autoremove >/dev/null
+apt-get update >/dev/null && apt-get -y upgrade && apt-get -y autoremove
 apt-get -y install git curl wget nginx
 
 # Allow apt to install system updates automatically.
@@ -46,7 +46,7 @@ ufw --force enable
 
 # create new user: vmail
 if ! id -u vmail >/dev/null 2>&1; then
-  mkdir -p /var/mail/vmail 
+  mkdir -p /var/mail/vmail
   groupadd -g 5000 vmail
   useradd -u 5000 vmail -g vmail -s /usr/sbin/nologin -d /var/mail/vmail
   chown -R vmail: /var/mail/vmail
