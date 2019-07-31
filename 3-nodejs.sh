@@ -7,24 +7,26 @@ source global.conf
 
 myId=$(whoami)
 if [[ "root" == $myId ]]; then
-  myDirectory = "/root/"
+  myDirectory= "/root/"
 else
   myDirectory="/home/${myId}"
 fi
 
 echo ================ install nodejs ================
-sudo -s <<EOF
 curl -sL https://deb.nodesource.com/setup_12.x >/dev/null | sudo -E bash - >/dev/null
+sudo -s <<EOF
 apt-get update >/dev/null
 apt-get -y install nodejs
 
 echo '================ install typescript, npm, pm2 ================'
-npm i -g typescript >/dev/null
-npm i -g npm >/dev/null
-npm i -g pm2 >/dev/null
+npm i -g typescript
+npm i -g npm
+npm i -g pm2
 chown -R ${myId}: ${myDirectory}
 
-rm ${myDirectory}/insg -R
+if [[ -d ${myDirectory}/insg ]]; then
+  rm ${myDirectory}/insg -R
+fi
 
 EOF
 
