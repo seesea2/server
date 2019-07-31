@@ -22,15 +22,16 @@ echo '================ install typescript, npm, pm2 ================'
 npm i -g typescript
 npm i -g npm
 npm i -g pm2
-chown -R ${myId}: ${myDirectory}
 
 if [[ -d ${myDirectory}/insg ]]; then
   rm ${myDirectory}/insg -R
 fi
 
+chown -R ${myId}: ${myDirectory}
+
+env PATH=$PATH:/usr/bin /usr/local/lib/node_modules/pm2/bin/pm2 startup systemd -u ${myId} --hp ${myDirectory} 
 EOF
 
-sudo env PATH=$PATH:/usr/bin /usr/local/lib/node_modules/pm2/bin/pm2 startup systemd -u ${myId} --hp ${myDirectory}
 pm2 delete all
 
 echo
