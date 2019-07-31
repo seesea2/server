@@ -96,7 +96,7 @@ postconf -P smtps/inet/smtpd_client_restrictions=permit_sasl_authenticated,rejec
 
 postconf -M dovecot/unix="dovecot       unix       -       n       n       -       -       pipe"
 # liych
-postconf -P { dovecot/unix/flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f '${sender}' -d '${user}'@'${nexthop}'}
+postconf -P { dovecot/unix/flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop} }
 
 ufw allow "Postfix"
 ufw allow "Postfix SMTPS"
