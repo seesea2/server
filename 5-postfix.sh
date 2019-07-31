@@ -84,8 +84,8 @@ postconf -M submission/inet="submission       inet       n       -       y      
 postconf -P submission/inet/syslog_name=postfix/submission
 postconf -P submission/inet/smtpd_tls_security_level=encrypt
 postconf -P submission/inet/smtpd_sasl_auth_enable=yes
-postconf -P submission/inet/smtpd_sasl_auth_type=dovecot
-postconf -P submission/inet/smtpd_sasl_auth_path=private/auth
+# postconf -P submission/inet/smtpd_sasl_auth_type=dovecot
+# postconf -P submission/inet/smtpd_sasl_auth_path=private/auth
 postconf -P submission/inet/smtpd_client_restrictions=permit_sasl_authenticated,reject
 
 postconf -M smtps/inet="smtps       inet       n       -       y       -       -       smtpd"
@@ -95,7 +95,8 @@ postconf -P smtps/inet/smtpd_sasl_auth_enable=yes
 postconf -P smtps/inet/smtpd_client_restrictions=permit_sasl_authenticated,reject
 
 postconf -M dovecot/unix="dovecot       unix       -       n       n       -       -       pipe"
-postconf -P dovecot/unix/flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f '${sender}' -d '${user}'@'${nexthop}'
+# liych
+# postconf -P dovecot/unix/flags='DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop}'
 
 
 ufw allow "Postfix"
