@@ -5,13 +5,14 @@ echo 'File: '$(basename "$0")
 
 source global.conf
 
-echo install php-imap, php-mbstring
-apt-get -y install php-imap php-mbstring >/dev/null # php7.2-imap php7.2-mbstring
+echo
+echo '===================== install php, php-imap, php-mbstring ====================='
+apt-get -y install php php-imap php-mbstring # php7.2-imap php7.2-mbstring
 
-echo install postfix, postfix-mysql
+echo '===================== install postfix, postfix-mysql ====================='
 debconf-set-selections <<<"postfix postfix/mailname string $myDomain"
 debconf-set-selections <<<"postfix postfix/main_mailer_type string 'Internet Site'"
-apt-get -y install postfix postfix-mysql
+apt-get install -y postfix postfix-mysql
 service postfix start
 
 postconf -e "biff = no"
@@ -26,7 +27,7 @@ postconf -e "recipient_delimiter = +"
 postconf -e 'smtp_tls_note_starttls_offer = yes'
 postconf -e 'smtp_tls_security_level = may'
 # postconf -e 'smtp_tls_session_cache_database = btree:/var/lib/postfix/smtp_scache'
-postconf -e "smtpd_banner = $myhostname ESMTP (Ubuntu)"
+postconf -e 'smtpd_banner = \$myhostname ESMTP (Ubuntu)'
 postconf -e 'smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination'
 postconf -e "smtpd_sasl_auth_enable = yes"
 postconf -e "smtpd_sasl_local_domain = $myDomain"
