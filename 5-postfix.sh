@@ -9,12 +9,15 @@ echo
 echo '===================== install php, php-imap, php-mbstring ====================='
 apt-get -y install php php-imap php-mbstring # php7.2-imap php7.2-mbstring
 
+echo
 echo '===================== install postfix, postfix-mysql ====================='
 debconf-set-selections <<<"postfix postfix/mailname string $myDomain"
 debconf-set-selections <<<"postfix postfix/main_mailer_type string 'Internet Site'"
 apt-get install -y postfix postfix-mysql
 service postfix start
 
+echo
+echo '===================== config postfix ====================='
 postconf -e "biff = no"
 postconf -e 'broken_sasl_auth_clients = yes'
 postconf -e "inet_interfaces = all"
@@ -27,7 +30,7 @@ postconf -e "recipient_delimiter = +"
 postconf -e 'smtp_tls_note_starttls_offer = yes'
 postconf -e 'smtp_tls_security_level = may'
 # postconf -e 'smtp_tls_session_cache_database = btree:/var/lib/postfix/smtp_scache'
-postconf -e 'smtpd_banner = \$myhostname ESMTP (Ubuntu)'
+postconf -e 'smtpd_banner = $myhostname ESMTP (Ubuntu)'
 postconf -e 'smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination'
 postconf -e "smtpd_sasl_auth_enable = yes"
 postconf -e "smtpd_sasl_local_domain = $myDomain"
@@ -47,29 +50,29 @@ IFS=""
 mkdir -p /etc/postfix/sql
 
 cat >/etc/postfix/sql/mysql_virtual_alias_maps.cf <<EOF
-user = ${myDbUser}
-password = ${myDbPass}
-hosts = 127.0.0.1
-dbname = ${myDb}
-query = SELECT goto FROM alias WHERE address='%s' AND active= '1'
+user=${myDbUser}
+password=${myDbPass}
+hosts=127.0.0.1
+dbname=${myDb}
+query=SELECT goto FROM alias WHERE address='%s' AND active= '1'
 EOF
 postconf -e "virtual_alias_maps = mysql:/etc/postfix/sql/mysql_virtual_alias_maps.cf"
 
 cat >/etc/postfix/sql/mysql_virtual_domains_maps.cf <<EOF
-user = ${myDbUser}
-password = ${myDbPass}
-hosts = 127.0.0.1
-dbname = ${myDb}
-query = SELECT domain FROM domain WHERE domain='%s' AND active = '1'
+user=${myDbUser}
+password=${myDbPass}
+hosts=127.0.0.1
+dbname=${myDb}
+query=SELECT domain FROM domain WHERE domain='%s' AND active = '1'
 EOF
 postconf -e "virtual_mailbox_domains = mysql:/etc/postfix/sql/mysql_virtual_domains_maps.cf"
 
 cat >/etc/postfix/sql/mysql_virtual_mailbox_maps.cf <<EOF
-user = ${myDbUser}
-password =  ${myDbPass}
-hosts = 127.0.0.1
-dbname =  ${myDb}
-query = SELECT maildir FROM mailbox WHERE username='%s' AND active = '1'
+user=${myDbUser}
+password=${myDbPass}
+hosts=127.0.0.1
+dbname=${myDb}
+query=SELECT maildir FROM mailbox WHERE username='%s' AND active = '1'
 EOF
 postconf -e "virtual_mailbox_maps = mysql:/etc/postfix/sql/mysql_virtual_mailbox_maps.cf"
 
@@ -84,6 +87,16 @@ postconf -P submission/inet/smtpd_sasl_auth_enable=yes
 postconf -P submission/inet/smtpd_sasl_auth_type=dovecot
 postconf -P submission/inet/smtpd_sasl_auth_path=private/auth
 postconf -P submission/inet/smtpd_client_restrictions=permit_sasl_authenticated,reject
+
+postconf -M smtps/inet="smtps       inet       n       -       y       -       -       smtpd"
+postconf -P smtps/inet/syslog_name=postfix/smtps
+postconf -P smtps/inet/smtpd_tls_wrappermode=yes
+postconf -P smtps/inet/smtpd_sasl_auth_enable=yes
+postconf -P smtps/inet/smtpd_client_restrictions=permit_sasl_authenticated,reject
+
+postconf -M dovecot/unix="dovecot       unix       -       n       n       -       -       pipe"
+postconf -P dovecot/unix/flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f '${sender}' -d '${user}'@'${nexthop}'
+
 
 ufw allow "Postfix"
 ufw allow "Postfix SMTPS"
