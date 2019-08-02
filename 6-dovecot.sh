@@ -3,9 +3,13 @@
 printf "\n\n"
 echo 'File: '$(basename "$0")
 
+echo ""
+echo "===================== install dovecot ====================="
 apt-get -y install dovecot-imapd dovecot-mysql dovecot-lmtpd dovecot-managesieved dovecot-core
 service dovecot start
 
+echo ""
+echo "===================== config dovecot ====================="
 # uncomment !include conf.d/*.conf
 sed -i '/\!include conf\.d\/\*\.conf/s/^#//' /etc/dovecot/dovecot.conf
 
@@ -13,7 +17,7 @@ sed -i '/^mail_location =.*/s/^/#/g' /etc/dovecot/conf.d/10-mail.conf #comment d
 echo "mail_location = maildir:/var/mail/vmail/%d/%n/Maildir" >>/etc/dovecot/conf.d/10-mail.conf
 
 sed -i '/^mail_privileged_group =.*/s/^/#/g' /etc/dovecot/conf.d/10-mail.conf
- echo "mail_privileged_group = vmail" >>/etc/dovecot/conf.d/10-mail.conf
+echo "mail_privileged_group = vmail" >>/etc/dovecot/conf.d/10-mail.conf
 
 echo "protocols = imap lmtp sieve" >>/etc/dovecot/local.conf
 
@@ -58,9 +62,14 @@ service dict {
 }
 EOF
 
-# liych note: conf.d/10-ssl.conf
-# ssl_cert = </etc/letsencrypt/live/mail.insg.xyz/fullchain.pem
-# ssl_key = </etc/letsencrypt/live/mail.insg.xyz/privkey.pem
+# conf.d/10-ssl.conf
+sed -i '/^ssl =.*/s/^/#/g' /etc/dovecot/conf.d/10-ssl.conf
+echo 'ssl = yes' >>/etc/dovecot/conf.d/10-ssl.conf
+sed -i '/^ssl_cert =.*/s/^/#/g' /etc/dovecot/conf.d/10-ssl.conf
+echo "ssl_cert = </etc/letsencrypt/live/${myDomain}/fullchain.pem" >>/etc/dovecot/conf.d/10-ssl.conf
+sed -i '/^ssl_key =.*/s/^/#/g' /etc/dovecot/conf.d/10-ssl.conf
+echo "ssl_key = </etc/letsencrypt/live/${myDomain}/privkey.pem" >>/etc/dovecot/conf.d/10-ssl.conf
+
 
 echo >/etc/dovecot/conf.d/auth-sql.conf.ext <<EOF
 passdb {
