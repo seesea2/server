@@ -58,3 +58,5 @@ chown -R www-data: /var/www/postfixadmin
   echo "    }"
   echo "  }"
 } >>/etc/nginx/sites-available/default
+
+service nginx reload
