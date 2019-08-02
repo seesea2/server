@@ -42,6 +42,7 @@ service nginx reload
 
 if [[ "1" == "$myGetTLS" ]]; then
   certbot certonly --agree-tos --email yc@insg.xyz --webroot -w /var/lib/letsencrypt/ -d "${myDomain}" -d "www.${myDomain}" -d "mail.${myDomain}" -d "pfa.${myDomain}"
+fi
 
   {
     echo "  server { "
@@ -64,7 +65,6 @@ if [[ "1" == "$myGetTLS" ]]; then
     echo "    }"
     echo "  }"
   } >/etc/nginx/sites-available/default
-fi
 
 echo test ================ nginx ================
 nginx -t
