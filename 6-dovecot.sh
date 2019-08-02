@@ -76,22 +76,21 @@ passdb {
   driver = sql
   args = /etc/dovecot/dovecot-sql.conf.ext
 }
-# userdb {
-#   driver = static
-#   args = uid=vmail gid=vmail home=/var/mail/vmail/%d/%n
-# }
+userdb {
+   driver = static
+   args = uid=vmail gid=vmail home=/var/mail/vmail/%d/%n
+}
 EOF
 
 # conf.d/20-lmtp.conf:    postmaster_address = postmaster@insg.xyz
+sed -i "/postmaster_address =.*/postmaster_address = postmaster@${myDomain}"
+sed -i "/mail_plugins =.*/mail_plugins = \$mail_plugins sieve"
 
-# liych end
+sed -i '/^auth_mechanisms =.*/s/^/#/g' /etc/dovecot/conf.d/10-auth.conf
+echo "auth_mechanisms = plain" >>/etc/dovecot/conf.d/10-auth.conf
 
-# sed -i '/^auth_mechanisms =.*/s/^/#/g' /etc/dovecot/conf.d/10-auth.conf
-# echo "auth_mechanisms = plain" >>/etc/dovecot/conf.d/10-auth.conf
-
-# sed -i '/\!include auth-system\.conf\.ext/s/^/#/g' /etc/dovecot/conf.d/10-auth.conf
-# sed -i '/\!include auth-sql\.conf\.ext/s/^#//g' /etc/dovecot/conf.d/10-auth.conf
-
+sed -i '/\!include auth-system\.conf\.ext/s/^/#/g' /etc/dovecot/conf.d/10-auth.conf
+sed -i '/\!include auth-sql\.conf\.ext/s/^#//g' /etc/dovecot/conf.d/10-auth.conf
 
 sed -i '/^driver =.*/s/^/#/g' /etc/dovecot/dovecot-sql.conf.ext
 echo "driver = mysql" >>/etc/dovecot/dovecot-sql.conf.ext
@@ -102,7 +101,7 @@ sed -i '/^default_pass_scheme =.*/s/^/#/g' /etc/dovecot/dovecot-sql.conf.ext
 echo "default_pass_scheme = SHA512-CRYPT" >>/etc/dovecot/dovecot-sql.conf.ext
 
 sed -i '/^password_query =.*/s/^/#/g' /etc/dovecot/dovecot-sql.conf.ext
-echo "password_query = SELECT email as user, password FROM virtual_users WHERE email='%u';" >>/etc/dovecot/dovecot-sql.conf.ext
+echo "password_query = SELECT username, domain, password FROM mailbox WHERE username='%u';" >>/etc/dovecot/dovecot-sql.conf.ext
 
 chown -R vmail:dovecot /etc/dovecot
 chmod -R o-rwx /etc/dovecot
