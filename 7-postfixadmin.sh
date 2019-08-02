@@ -13,7 +13,7 @@ rm postfixadmin.tar.gz
 
 echo ""
 echo "======================= configure postfixadmin ======================="
-if [[ -d '/var/www/postfixadmin']; then
+if [[ -d '/var/www/postfixadmin' ]]; then
   rm -R /var/www/postfixadmin
 fi  
 cp -f -R postfixadmin-*/ /var/www/postfixadmin
