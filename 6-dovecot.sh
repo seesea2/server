@@ -19,7 +19,7 @@ echo "mail_location = maildir:/var/mail/vmail/%d/%n/Maildir" >>/etc/dovecot/conf
 sed -i '/^mail_privileged_group =.*/s/^/#/g' /etc/dovecot/conf.d/10-mail.conf
 echo "mail_privileged_group = vmail" >>/etc/dovecot/conf.d/10-mail.conf
 
-echo "protocols = imap lmtp sieve" >>/etc/dovecot/local.conf
+echo "protocols = imap lmtp sieve" >/etc/dovecot/local.conf
 
 echo >/etc/dovecot/conf.d/10-master.conf <<EOF
 service imap-login {
