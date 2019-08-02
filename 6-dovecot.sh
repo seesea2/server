@@ -112,5 +112,6 @@ ufw allow "Dovecot Secure IMAP"
 service dovecot restart
 service postfix restart
 
-echo "\n\nYour mail server should be working now."
+echo ""
+echo "Your mail server should be working now."
 unset $IFS
