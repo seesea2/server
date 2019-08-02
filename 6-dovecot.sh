@@ -83,8 +83,8 @@ userdb {
 EOF
 
 # conf.d/20-lmtp.conf:    postmaster_address = postmaster@insg.xyz
-sed -i "/postmaster_address =.*/postmaster_address = postmaster@${myDomain}"
-sed -i "/mail_plugins =.*/mail_plugins = \$mail_plugins sieve"
+sed -i "s/postmaster_address =.*/postmaster_address = postmaster@${myDomain}/g" /etc/dovecot/conf.d/20-lmtp.conf
+sed -i "s/mail_plugins =.*/mail_plugins = \$mail_plugins sieve/g" /etc/dovecot/conf.d/20-lmtp.conf
 
 sed -i '/^auth_mechanisms =.*/s/^/#/g' /etc/dovecot/conf.d/10-auth.conf
 echo "auth_mechanisms = plain" >>/etc/dovecot/conf.d/10-auth.conf
