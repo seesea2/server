@@ -41,7 +41,7 @@ echo "================ update nginx configuration ================"
 service nginx reload
 
 if [[ "1" == "$myGetTLS" ]]; then
-  certbot certonly --agree-tos --email yc@insg.xyz --webroot -w /var/lib/letsencrypt/ -d "${myDomain}" -d "www.${myDomain}" -d "mail.${myDomain}" -d "pfa.${myDomain}"
+  certbot certonly --agree-tos --email yc@insg.xyz --eff-email --webroot -w /var/lib/letsencrypt/ -d "${myDomain}" -d "www.${myDomain}" -d "mail.${myDomain}" -d "pfa.${myDomain}"
 fi
 
   {
