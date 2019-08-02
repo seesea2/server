@@ -1,12 +1,12 @@
 #!/bin/bash
 
 printf "\n\n"
-echo 'File: '$(basename "$0")
+echo '======================== File: '$(basename "$0")' ========================'
 
 source global.conf
 
-echo
-echo ================ install certbox ================ 
+echo ""
+echo "================ install certbox ================"
 apt-get -y install certbot python-certbot-nginx
 
 if [[ -d "/var/lib/letencrypt" ]]; then
@@ -16,8 +16,8 @@ mkdir -p /var/lib/letsencrypt/.well-known
 chgrp www-data /var/lib/letsencrypt
 chmod g+s /var/lib/letsencrypt
 
-echo
-echo ================ update nginx configuration ================ 
+echo ""
+echo "================ update nginx configuration ================" 
 {
   echo '  location ^~ /.well-known/acme-challenge/ {'
   echo "    allow all;"
@@ -39,7 +39,7 @@ echo ================ update nginx configuration ================
 } >/etc/nginx/sites-available/default
 
 if [[ "1" == "$myGetTLS" ]]; then
-  certbot certonly --agree-tos --email yc@insg.xyz --webroot -w /var/lib/letsencrypt/ -d ${myDomain} -d "www.${myDomain}" -d "mail.${myDomain}" -d "pfa.${myDomain}"
+  certbot certonly --agree-tos --email yc@insg.xyz --webroot -w /var/lib/letsencrypt/ -d "${myDomain}" -d "www.${myDomain}" -d "mail.${myDomain}" -d "pfa.${myDomain}"
 
   {
     echo "  server { "
