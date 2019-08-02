@@ -13,8 +13,8 @@ else
 fi
 
 echo ================ install nodejs ================
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo -s <<EOF
-curl -sL https://deb.nodesource.com/setup_12.x >/dev/null | sudo -E bash - >/dev/null
 apt-get update >/dev/null
 apt-get -y install nodejs
 
