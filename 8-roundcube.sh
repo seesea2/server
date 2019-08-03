@@ -1,8 +1,12 @@
 #!/bin/bash
 
-echo 'File: '$(basename "$0")
+echo ""
+echo '======================= File: '$(basename "$0")' ======================='
+
 source global.conf
 
+echo ""
+echo "======================= configure roundcube ======================="
 {
   echo "  server {"
   echo "    listen 443 ssl http2;"

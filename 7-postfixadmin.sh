@@ -47,7 +47,7 @@ chown -R www-data: /var/www/postfixadmin
   echo "    index index.php;"
   echo "    location / {"
   echo '      try_files $uri $uri/ /index.php;'
-  echo "    }"
+  echo '    }'
   echo '    location ~* \.php$ {'
   echo '      fastcgi_split_path_info ^(.+?\.php)(/.*)$;'
   echo '      if (!-f $document_root$fastcgi_script_name) {return 404;}'
