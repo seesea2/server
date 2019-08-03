@@ -21,7 +21,8 @@ sqlCmd=(
 )
 
 for ((i = 0; i < ${#SQLCMDARRAY[@]}; i++)); do
-    mysql -u root -e "${SQLCMDARRAY[$i]}"
+    echo ${SQLCMDARRAY[$i]}
+    mysql -u root -p $myDbPass -e "${SQLCMDARRAY[$i]}"
     if [[ $? -eq 1 ]]; then
         echo "SQL failed: '${SQLCMDARRAY[$i]}'"
         exit 1
