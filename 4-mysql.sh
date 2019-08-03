@@ -12,8 +12,7 @@ apt-get -y install mysql-server php-mysql
 echo
 echo '====================== config mysql database ======================'
 sqlCmd=(
-    "use mysql;"
-    "update user set authentication_string=PASSWORD(\'$myDbPass\') where user='root';"
+    "update mysql.user set authentication_string=PASSWORD('$myDbPass') where user='root';"
     "DROP DATABASE IF EXISTS ${myDb};"
     "CREATE DATABASE ${myDb};"
     "GRANT ALL PRIVILEGES ON ${myDb}.* TO '${myDbUser}'@'localhost' IDENTIFIED BY '${myDbPass}';"
@@ -21,7 +20,7 @@ sqlCmd=(
 )
 
 for (( i = 0; i < ${#sqlCmd[@]}; i++ )); do
-    mysql -u root -p $myDbPass -e "${sqlCmd[$i]}"
+    mysql -u root -e "${sqlCmd[$i]}"
     if [[ $? -eq 1 ]]; then
         echo "SQL failed: '${sqlCmd[$i]}'"
         exit 1
