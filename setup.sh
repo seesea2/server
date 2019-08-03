@@ -21,7 +21,7 @@ sudo su -c ./2-letsencrypt.sh
 # mail server
 sudo su -c ./4-mysql.sh
 sudo su -c ./5-postfix.sh
-# sudo su -c ./6-dovecot.sh
+sudo su -c ./6-dovecot.sh
 
-# sudo su -c ./7-postfixadmin.sh
+sudo su -c ./7-postfixadmin.sh
 # sudo su -c ./8-roundcube.sh

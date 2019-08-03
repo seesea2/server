@@ -99,8 +99,6 @@ postconf -M dovecot/unix="dovecot       unix       -       n       n       -    
 #postconf -P { dovecot/unix/flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop} }
 postconf -F "dovecot/unix/command=pipe flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f \${sender} -d \${user}@\${nexthop}"
 
-
-
 ufw allow "Postfix"
 ufw allow "Postfix SMTPS"
 ufw allow "Postfix Submission"

@@ -19,7 +19,7 @@ sqlCmd=(
     "FLUSH PRIVILEGES;"
 )
 
-for (( i = 0; i < ${#sqlCmd[@]}; i++ )); do
+for ((i = 0; i < ${#sqlCmd[@]}; i++)); do
     mysql -u root -e "${sqlCmd[$i]}"
     if [[ $? -eq 1 ]]; then
         echo "SQL failed: '${sqlCmd[$i]}'"

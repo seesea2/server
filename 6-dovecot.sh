@@ -70,7 +70,6 @@ echo "ssl_cert = </etc/letsencrypt/live/${myDomain}/fullchain.pem" >>/etc/doveco
 sed -i '/^ssl_key =.*/s/^/#/g' /etc/dovecot/conf.d/10-ssl.conf
 echo "ssl_key = </etc/letsencrypt/live/${myDomain}/privkey.pem" >>/etc/dovecot/conf.d/10-ssl.conf
 
-
 echo >/etc/dovecot/conf.d/auth-sql.conf.ext <<EOF
 passdb {
   driver = sql
@@ -105,7 +104,6 @@ echo "password_query = SELECT username, domain, password FROM mailbox WHERE user
 
 chown -R vmail:dovecot /etc/dovecot
 chmod -R o-rwx /etc/dovecot
-
 
 ufw allow "Dovecot Secure IMAP"
 
