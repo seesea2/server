@@ -20,11 +20,10 @@ sqlCmd=(
     "FLUSH PRIVILEGES;"
 )
 
-for ((i = 0; i < ${#SQLCMDARRAY[@]}; i++)); do
-    echo ${SQLCMDARRAY[$i]}
-    mysql -u root -p $myDbPass -e "${SQLCMDARRAY[$i]}"
+for (( i = 0; i < ${#sqlCmd[@]}; i++ )); do
+    mysql -u root -p $myDbPass -e "${sqlCmd[$i]}"
     if [[ $? -eq 1 ]]; then
-        echo "SQL failed: '${SQLCMDARRAY[$i]}'"
+        echo "SQL failed: '${sqlCmd[$i]}'"
         exit 1
     fi
 done
