@@ -21,13 +21,13 @@ rm -R postfixadmin-*/
 
 cat >/var/www/postfixadmin/config.local.php <<EOF
 <?php
-  $CONF['database_type'] = 'mysqli';
-  $CONF['database_user'] = "${myDbUser}";
-  $CONF['database_host'] = 'localhost';
-  $CONF['database_password'] = "${myDbPass}";
-  $CONF['database_name'] = "${myDb}";
+  \$CONF['database_type'] = 'mysqli';
+  \$CONF['database_user'] = \'${myDbUser}\';
+  \$CONF['database_host'] = 'localhost';
+  \$CONF['database_password'] = \'${myDbPass}\';
+  \$CONF['database_name'] = \'${myDb}\';
 
-  $CONF['configured'] = true;
+  \$CONF['configured'] = true;
 ?>
 EOF
 
