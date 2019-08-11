@@ -6,8 +6,8 @@ echo '======================= File: '$(basename "$0")' ======================='
 source global.conf
 
 wget -q https://github.com/roundcube/roundcubemail/releases/download/1.3.9/roundcubemail-1.3.9-complete.tar.gz -O roundcube.tar.gz
-tar -xvzf roundcubemail.tar.gz
-rm roundcubemail.tar.gz
+tar -xvzf roundcube.tar.gz
+rm roundcube.tar.gz
 
 echo ""
 echo "======================= configure roundcube ======================="
