@@ -6,8 +6,8 @@ echo 'File: '$(basename "$0")
 source global.conf
 
 echo
-echo '====================== install mysql-server, php-mysql ======================'
-apt-get -y install mysql-server php-mysql
+echo '====================== install mysql-server ======================'
+apt-get -y install mysql-server
 
 echo
 echo '====================== config mysql database ======================'

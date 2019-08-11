@@ -14,9 +14,9 @@ echo "======================= configure roundcube ======================="
 if [[ -d '/var/www/roundcube' ]]; then
   rm -R /var/www/roundcube
 fi
-mv roundcube-*/ /var/www/roundcube
+mv roundcube*/ /var/www/roundcube
 chown -R www-data: /var/www/roundcube
-chmod -R 775 /var/www/html/roundcube
+chmod -R 775 /var/www/roundcube
 
 {
   echo "  server {"

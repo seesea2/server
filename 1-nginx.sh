@@ -7,7 +7,7 @@ printf "\n"
 source global.conf
 
 echo ================= Install and cofigure nginx =================
-apt-get -y install nginx php php-fpm php-mysql
+apt-get -y install nginx php php-fpm php-curl php-xml php-gd php-intl php-ldap php-imagick php-mysql php-imap php-mbstring 
 
 {
   echo "  server { "

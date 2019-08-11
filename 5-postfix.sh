@@ -5,18 +5,14 @@ echo 'File: '$(basename "$0")
 
 source global.conf
 
-echo
-echo '===================== install php, php-imap, php-mbstring ====================='
-apt-get -y install php php-imap php-mbstring # php7.2-imap php7.2-mbstring
-
-echo
+echo ''
 echo '===================== install postfix, postfix-mysql ====================='
 debconf-set-selections <<<"postfix postfix/mailname string $myDomain"
 debconf-set-selections <<<"postfix postfix/main_mailer_type string 'Internet Site'"
 apt-get install -y postfix postfix-mysql
 service postfix start
 
-echo
+echo ''
 echo '===================== config postfix ====================='
 postconf -e "biff = no"
 postconf -e 'broken_sasl_auth_clients = yes'
