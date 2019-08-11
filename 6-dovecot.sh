@@ -3,6 +3,8 @@
 printf "\n\n"
 echo 'File: '$(basename "$0")
 
+source global.conf
+
 echo ""
 echo "===================== install dovecot ====================="
 apt-get -y install dovecot-imapd dovecot-mysql dovecot-lmtpd dovecot-managesieved dovecot-core
