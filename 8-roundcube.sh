@@ -5,8 +5,19 @@ echo '======================= File: '$(basename "$0")' ======================='
 
 source global.conf
 
+wget -q https://github.com/roundcube/roundcubemail/releases/download/1.3.9/roundcubemail-1.3.9-complete.tar.gz -O roundcube.tar.gz
+tar -xvzf roundcubemail.tar.gz
+rm roundcubemail.tar.gz
+
 echo ""
 echo "======================= configure roundcube ======================="
+if [[ -d '/var/www/roundcube' ]]; then
+  rm -R /var/www/roundcube
+fi
+mv roundcube-*/ /var/www/roundcube
+chown -R www-data: /var/www/roundcube
+chmod -R 775 /var/www/html/roundcube
+
 {
   echo "  server {"
   echo "    listen 443 ssl http2;"
@@ -30,3 +41,5 @@ echo "======================= configure roundcube ======================="
   echo "    }"
   echo "  }"
 } >>/etc/nginx/sites-available/default
+
+service nginx reload
