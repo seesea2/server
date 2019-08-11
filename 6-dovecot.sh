@@ -21,7 +21,7 @@ echo "mail_privileged_group = vmail" >>/etc/dovecot/conf.d/10-mail.conf
 
 echo "protocols = imap lmtp sieve" >/etc/dovecot/local.conf
 
-echo >/etc/dovecot/conf.d/10-master.conf <<EOF
+cat >/etc/dovecot/conf.d/10-master.conf <<EOF
 service imap-login {
   inet_listener imap {
     port = 0
@@ -70,7 +70,7 @@ echo "ssl_cert = </etc/letsencrypt/live/${myDomain}/fullchain.pem" >>/etc/doveco
 sed -i '/^ssl_key =.*/s/^/#/g' /etc/dovecot/conf.d/10-ssl.conf
 echo "ssl_key = </etc/letsencrypt/live/${myDomain}/privkey.pem" >>/etc/dovecot/conf.d/10-ssl.conf
 
-echo >/etc/dovecot/conf.d/auth-sql.conf.ext <<EOF
+cat >/etc/dovecot/conf.d/auth-sql.conf.ext <<EOF
 passdb {
   driver = sql
   args = /etc/dovecot/dovecot-sql.conf.ext
@@ -86,7 +86,7 @@ sed -i "s/postmaster_address =.*/postmaster_address = postmaster@${myDomain}/g" 
 sed -i "s/mail_plugins =.*/mail_plugins = \$mail_plugins sieve/g" /etc/dovecot/conf.d/20-lmtp.conf
 
 sed -i '/^auth_mechanisms =.*/s/^/#/g' /etc/dovecot/conf.d/10-auth.conf
-echo "auth_mechanisms = plain" >>/etc/dovecot/conf.d/10-auth.conf
+echo "auth_mechanisms = plain login" >>/etc/dovecot/conf.d/10-auth.conf
 
 sed -i '/\!include auth-system\.conf\.ext/s/^/#/g' /etc/dovecot/conf.d/10-auth.conf
 sed -i '/\!include auth-sql\.conf\.ext/s/^#//g' /etc/dovecot/conf.d/10-auth.conf
