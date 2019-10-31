@@ -2,10 +2,11 @@
 
 printf "\n\n"
 echo '======================== File: '$(basename "$0")' ========================'
+printf "\n"
 
 source global.conf
 
-echo ""
+printf "\n"
 echo "================ install certbox ================"
 apt-get -y install certbot python-certbot-nginx
 
@@ -16,7 +17,7 @@ mkdir -p /var/lib/letsencrypt/.well-known
 chgrp www-data /var/lib/letsencrypt
 chmod g+s /var/lib/letsencrypt
 
-echo ""
+printf "\n"
 echo "================ update nginx configuration ================"
 {
   echo '  location ^~ /.well-known/acme-challenge/ {'

@@ -47,8 +47,8 @@ ufw --force enable
 
 # create new user: vmail
 if ! id -u vmail >/dev/null 2>&1; then
-  echo
-  echo ================= new user: vmail =================
+  printf "\n"
+  echo "================= new user: vmail ================="
   mkdir -p /var/mail/vmail
   groupadd -g 5000 vmail
   useradd -u 5000 vmail -g vmail -s /usr/sbin/nologin -d /var/mail/vmail
