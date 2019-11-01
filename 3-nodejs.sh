@@ -2,6 +2,7 @@
 
 printf "\n\n"
 echo 'File: '$(basename "$0")
+printf "\n"
 
 source global.conf
 
@@ -12,11 +13,11 @@ else
   myDirectory="/home/${myId}"
 fi
 
-echo ================ install nodejs ================
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+echo '================ install nodejs ================'
+curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
 sudo -s <<EOF
 apt-get update >/dev/null
-apt-get -y install nodejs
+apt-get install -y nodejs
 
 echo '================ install typescript, npm, pm2 ================'
 npm i -g typescript
@@ -34,8 +35,8 @@ EOF
 
 pm2 delete all
 
-echo
-echo ================ install nodejs website ================
+printf "\n"
+echo '================ install nodejs website ================'
 git clone https://github.com/seesea2/insg.git ${myDirectory}/insg
 
 sudo su -c "ufw allow 8080"

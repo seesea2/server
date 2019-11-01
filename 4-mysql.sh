@@ -2,14 +2,15 @@
 
 printf "\n\n"
 echo 'File: '$(basename "$0")
+printf "\n"
 
 source global.conf
 
-echo
+printf "\n"
 echo '====================== install mysql-server ======================'
-apt-get -y install mysql-server
+apt-get install -y mysql-server
 
-echo
+printf "\n"
 echo '====================== config mysql database ======================'
 sqlCmd=(
     "update mysql.user set authentication_string=PASSWORD('$myDbPass') where user='root';"

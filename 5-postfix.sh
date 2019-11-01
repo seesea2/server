@@ -2,17 +2,18 @@
 
 printf "\n\n"
 echo 'File: '$(basename "$0")
+printf "\n"
 
 source global.conf
 
-echo ''
+printf "\n"
 echo '===================== install postfix, postfix-mysql ====================='
 debconf-set-selections <<<"postfix postfix/mailname string $myDomain"
 debconf-set-selections <<<"postfix postfix/main_mailer_type string 'Internet Site'"
 apt-get install -y postfix postfix-mysql
 service postfix start
 
-echo ''
+printf '\n'
 echo '===================== config postfix ====================='
 postconf -e "biff = no"
 postconf -e 'broken_sasl_auth_clients = yes'

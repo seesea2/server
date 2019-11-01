@@ -60,14 +60,14 @@ fi
   echo "    ssl_certificate         /etc/letsencrypt/live/${myDomain}/fullchain.pem;"
   echo "    ssl_certificate_key     /etc/letsencrypt/live/${myDomain}/privkey.pem;"
   echo "    ssl_trusted_certificate /etc/letsencrypt/live/${myDomain}/chain.pem;"
-  echo "    include snippets/letsencrypt.conf;"
+  # echo "    include snippets/letsencrypt.conf;"
   echo "    location / {"
   echo "      proxy_pass http://localhost:8080;"
   echo "    }"
   echo "  }"
 } >/etc/nginx/sites-available/default
 
-echo test ================ nginx ================
+echo '================ test nginx ================'
 nginx -t
 service nginx restart
 
