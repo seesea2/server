@@ -2,6 +2,9 @@
 
 ### Bash Script to setup web server (Nginx, nodejs, express) and email server (postfix, dovecot, postfixadmin, roundcube)
 
+make sure your use has sudo previlege
+### usermod -aG sudo username
+
 1. git clone this repository: `git clone https://github.com/seesea2/server.git`
 2. enter the directory from terminal: `cd server`
 3. configure file: **global.conf**

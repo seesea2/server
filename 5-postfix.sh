@@ -1,4 +1,4 @@
-q   q           #!/bin/bash
+#!/bin/bash
 
 printf "\n\n"
 echo 'File: '$(basename "$0")
