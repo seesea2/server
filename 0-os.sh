@@ -21,7 +21,7 @@ fi
 echo ${myHost} >/etc/hostname
 hostname ${myHost}
 
-echo "${myHost}.${myDomain}" >/etc/mailname
+echo "${myHost}" >/etc/mailname
 
 # upgrade OS and install basic tools
 echo ================= upgrade OS and install basic tools =================
