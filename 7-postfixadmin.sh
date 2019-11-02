@@ -2,16 +2,17 @@
 
 printf "\n\n"
 echo '======================= File: '$(basename "$0")' ======================='
+printf "\n"
 
 source global.conf
 
-echo ""
+printf "\n"
 echo "======================= install postfixadmin ======================="
 wget -q https://sourceforge.net/projects/postfixadmin/files/latest/download -O postfixadmin.tar.gz
 tar xvf postfixadmin.tar.gz >/dev/null
 rm postfixadmin.tar.gz
 
-echo ""
+printf "\n"
 echo "======================= configure postfixadmin ======================="
 if [[ -d '/var/www/postfixadmin' ]]; then
   rm -R /var/www/postfixadmin

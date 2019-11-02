@@ -1,7 +1,8 @@
 #!/bin/bash
 
-echo ""
+printf "\n\n"
 echo '======================= File: '$(basename "$0")' ======================='
+printf "\n"
 
 source global.conf
 
@@ -9,7 +10,7 @@ wget -q https://github.com/roundcube/roundcubemail/releases/download/1.3.9/round
 tar -xvzf roundcube.tar.gz
 rm roundcube.tar.gz
 
-echo ""
+printf "\n"
 echo "======================= configure roundcube ======================="
 if [[ -d '/var/www/roundcube' ]]; then
   rm -R /var/www/roundcube

@@ -2,15 +2,16 @@
 
 printf "\n\n"
 echo 'File: '$(basename "$0")
+printf "\n"
 
 source global.conf
 
-echo ""
+printf "\n"
 echo "===================== install dovecot ====================="
-apt-get -y install dovecot-imapd dovecot-mysql dovecot-lmtpd dovecot-managesieved dovecot-core
+apt-get install -y dovecot-imapd dovecot-mysql dovecot-lmtpd dovecot-managesieved dovecot-core
 service dovecot start
 
-echo ""
+printf "\n"
 echo "===================== config dovecot ====================="
 # uncomment !include conf.d/*.conf
 sed -i '/\!include conf\.d\/\*\.conf/s/^#//' /etc/dovecot/dovecot.conf
@@ -112,6 +113,6 @@ ufw allow "Dovecot Secure IMAP"
 service dovecot restart
 service postfix restart
 
-echo ""
+printf "\n"
 echo "Your mail server should be working now."
 unset $IFS
