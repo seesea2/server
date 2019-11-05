@@ -33,8 +33,7 @@ cat >/var/www/postfixadmin/config.local.php <<EOF
 EOF
 
 mkdir -p /var/www/postfixadmin/templates_c && chmod 755 -R /var/www/postfixadmin/templates_c
-
-chown -R www-data: /var/www/postfixadmin
+chown -R www-data: /var/www
 
 {
   echo "  server {"
@@ -62,3 +61,5 @@ chown -R www-data: /var/www/postfixadmin
 } >>/etc/nginx/sites-available/default
 
 service nginx reload
+
+# then, please set up at:  pfa.web.com/setup.php

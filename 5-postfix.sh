@@ -10,8 +10,11 @@ printf "\n"
 echo '===================== install postfix, postfix-mysql ====================='
 debconf-set-selections <<<"postfix postfix/mailname string $myDomain"
 debconf-set-selections <<<"postfix postfix/main_mailer_type string 'Internet Site'"
-apt-get install -y postfix postfix-mysql
+apt-get install -y postfix postfix-mysql sasl2-bin
 service postfix start
+
+sed -i '/^START=no/s/START=yes/g' /etc/default/saslauthd
+systemctl restart saslauthd
 
 printf '\n'
 echo '===================== config postfix ====================='
