@@ -19,7 +19,6 @@ sed -i '\#listen = \*\, \:\:/s/^#//' /etc/dovecot/dovecot.conf
 sed -i '/\!include conf\.d\/\*\.conf/s/^#//' /etc/dovecot/dovecot.conf
 echo "\!include conf\.d\/auth-sql\.conf\.ext" >>/etc/dovecot/dovecot.conf
 
-
 sed -i '/^mail_location =.*/s/^/#/g' /etc/dovecot/conf.d/10-mail.conf #comment default mail_location
 echo "mail_location = maildir:/var/mail/vmail/%d/%n/Maildir" >>/etc/dovecot/conf.d/10-mail.conf
 

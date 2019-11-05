@@ -52,6 +52,7 @@ chown -R www-data: /var/www/postfixadmin
   echo '    location ~* \.php$ {'
   echo '      fastcgi_split_path_info ^(.+?\.php)(/.*)$;'
   echo '      if (!-f $document_root$fastcgi_script_name) {return 404;}'
+  echo '      include snippets/fastcgi-php.conf;'
   echo '      fastcgi_pass  unix:/run/php/php7.2-fpm.sock;'
   echo "      fastcgi_index index.php;"
   echo "      include fastcgi_params;"

@@ -93,6 +93,7 @@ postconf -P smtps/inet/smtpd_client_restrictions=permit_sasl_authenticated,rejec
 
 postconf -M dovecot/unix="dovecot       unix       -       n       n       -       -       pipe"
 # liych
+postconf -e 'home_mailbox= Maildir/'
 #postconf -P { dovecot/unix/flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop} }
 postconf -F "dovecot/unix/command=pipe flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f \${sender} -d \${user}@\${nexthop}"
 
