@@ -30,7 +30,7 @@ fi
 
 chown -R ${myId}: ${myDirectory}
 
-env PATH=$PATH:/usr/bin /usr/local/lib/node_modules/pm2/bin/pm2 startup systemd -u ${myId} --hp ${myDirectory} 
+env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u ${myId} --hp ${myDirectory} 
 EOF
 
 pm2 delete all
