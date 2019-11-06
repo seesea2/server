@@ -76,6 +76,8 @@ query=SELECT maildir FROM mailbox WHERE username='%s' AND active = '1'
 EOF
 postconf -e "virtual_mailbox_maps = mysql:/etc/postfix/sql/mysql_virtual_mailbox_maps.cf"
 
+chgrp postfix /etc/postfix/sql/mysql_*.cf
+
 postconf -e "virtual_transport = lmtp:unix:private/dovecot-lmtp"
 # postconf -e "mydomain = ${myDomain}"
 
@@ -87,12 +89,14 @@ postconf -P submission/inet/smtpd_sasl_auth_enable=yes
 # postconf -P submission/inet/smtpd_sasl_auth_type=dovecot
 # postconf -P submission/inet/smtpd_sasl_auth_path=private/auth
 postconf -P submission/inet/smtpd_client_restrictions=permit_sasl_authenticated,reject
+postconf -P submission/inet/milter_macro_daemon_name=ORIGINATING
 
 postconf -M smtps/inet="smtps       inet       n       -       y       -       -       smtpd"
 postconf -P smtps/inet/syslog_name=postfix/smtps
 postconf -P smtps/inet/smtpd_tls_wrappermode=yes
 postconf -P smtps/inet/smtpd_sasl_auth_enable=yes
 postconf -P smtps/inet/smtpd_client_restrictions=permit_sasl_authenticated,reject
+postconf -P smtps/inet/milter_macro_daemon_name=ORIGINATING
 
 postconf -M dovecot/unix="dovecot       unix       -       n       n       -       -       pipe"
 # liych
