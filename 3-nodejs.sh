@@ -25,7 +25,7 @@ npm i -g npm
 npm i -g pm2
 
 if [[ -d ${myDirectory}/insg ]]; then
-  rm ${myDirectory}/insg -R
+  rm ${myDirectory}/insg -R -f
 fi
 
 chown -R ${myId}: ${myDirectory}

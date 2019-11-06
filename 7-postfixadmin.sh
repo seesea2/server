@@ -54,7 +54,6 @@ chown -R www-data: /var/www
   echo '      if (!-f $document_root$fastcgi_script_name) {return 404;}'
   echo '      include snippets/fastcgi-php.conf;'
   echo '      fastcgi_pass  unix:/run/php/php7.2-fpm.sock;'
-  echo "      fastcgi_index index.php;"
   echo "      include fastcgi_params;"
   echo '      fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;'
   echo "    }"

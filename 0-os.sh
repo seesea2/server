@@ -7,8 +7,8 @@ printf "\n"
 source global.conf
 
 # set timezone
-if [[ -f /usr/share/zoneinfo/${myTimeZone} ]]; then
-  echo ${myTimeZone} >/etc/timezone
+if [[ -f "/usr/share/zoneinfo/${myTimeZone}" ]]; then
+  echo ${myTimeZone} | sudo tee /etc/timezone
   dpkg-reconfigure -f noninteractive tzdata >/dev/null 2>&1
   if [ $? -ne 0 ]; then
     echo "Timezone configuration failed."
