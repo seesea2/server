@@ -17,15 +17,17 @@ sed -i '\#listen = \*\, \:\:/s/^#//' /etc/dovecot/dovecot.conf
 
 # uncomment !include conf.d/*.conf
 sed -i '/\!include conf\.d\/\*\.conf/s/^#//' /etc/dovecot/dovecot.conf
-echo "\!include conf\.d\/auth-sql\.conf\.ext" >>/etc/dovecot/dovecot.conf
+# echo "!include conf.d/auth-sql.conf.ext" >>/etc/dovecot/dovecot.conf
 
 sed -i '/^mail_location =.*/s/^/#/g' /etc/dovecot/conf.d/10-mail.conf #comment default mail_location
 echo "mail_location = maildir:/var/mail/vmail/%d/%n/Maildir" >>/etc/dovecot/conf.d/10-mail.conf
 
 sed -i '/^mail_privileged_group =.*/s/^/#/g' /etc/dovecot/conf.d/10-mail.conf
-echo "mail_privileged_group = vmail" >>/etc/dovecot/conf.d/10-mail.conf
+echo "mail_privileged_group = mail" >>/etc/dovecot/conf.d/10-mail.conf
 
-echo "protocols = imap lmtp sieve" >/etc/dovecot/local.conf
+# liych seems sieve not needed here.
+# echo "protocols = imap lmtp sieve" >/etc/dovecot/local.conf
+echo "protocols = imap lmtp" >/etc/dovecot/local.conf
 
 cat >/etc/dovecot/conf.d/10-master.conf <<EOF
 service imap-login {
@@ -89,7 +91,7 @@ EOF
 
 # conf.d/20-lmtp.conf:    postmaster_address = postmaster@insg.xyz
 sed -i "s/postmaster_address =.*/postmaster_address = postmaster@${myDomain}/g" /etc/dovecot/conf.d/20-lmtp.conf
-sed -i "s/mail_plugins =.*/mail_plugins = \$mail_plugins sieve/g" /etc/dovecot/conf.d/20-lmtp.conf
+sed -i "s/#mail_plugins =.*/mail_plugins = \$mail_plugins sieve/g" /etc/dovecot/conf.d/20-lmtp.conf
 
 sed -i '/^auth_mechanisms =.*/s/^/#/g' /etc/dovecot/conf.d/10-auth.conf
 echo "auth_mechanisms = plain login" >>/etc/dovecot/conf.d/10-auth.conf
@@ -103,6 +105,7 @@ sed -i '/^connect =.*/s/^/#/g' /etc/dovecot/dovecot-sql.conf.ext
 echo "connect = host=127.0.0.1 dbname=$myDb user=$myDbUser password=$myDbPass" >>/etc/dovecot/dovecot-sql.conf.ext
 
 sed -i '/^default_pass_scheme =.*/s/^/#/g' /etc/dovecot/dovecot-sql.conf.ext
+# liych watch out the encrypt
 echo "default_pass_scheme = SHA512-CRYPT" >>/etc/dovecot/dovecot-sql.conf.ext
 
 sed -i '/^password_query =.*/s/^/#/g' /etc/dovecot/dovecot-sql.conf.ext
@@ -110,6 +113,7 @@ echo "password_query = SELECT username, domain, password FROM mailbox WHERE user
 
 chown -R vmail:dovecot /etc/dovecot
 chmod -R o-rwx /etc/dovecot
+chgrp vmail /etc/dovecot/dovecot.conf
 
 ufw allow "Dovecot Secure IMAP"
 
