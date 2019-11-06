@@ -7,7 +7,7 @@ printf "\n"
 source global.conf
 
 wget -q https://github.com/roundcube/roundcubemail/releases/download/1.3.9/roundcubemail-1.3.9-complete.tar.gz -O roundcube.tar.gz
-tar -xvzf roundcube.tar.gz
+tar -xf roundcube.tar.gz
 rm roundcube.tar.gz
 
 printf "\n"
@@ -17,6 +17,7 @@ if [[ -d '/var/www/roundcube' ]]; then
 fi
 mv roundcube*/ /var/www/roundcube
 chown -R www-data: /var/www
+chmod 755 /var/www/roundcube/temp/ /var/www/roundcube/logs/
 
 {
   echo "  server {"
@@ -43,3 +44,7 @@ chown -R www-data: /var/www
 } >>/etc/nginx/sites-available/default
 
 service nginx reload
+
+# then setup at: mail.site.com/installer
+# IMAP ssl://mail.site.com   port 993
+# SMTP ssl://mail.site.com port 465

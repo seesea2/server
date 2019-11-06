@@ -9,7 +9,7 @@ source global.conf
 printf "\n"
 echo "======================= install postfixadmin ======================="
 wget -q https://sourceforge.net/projects/postfixadmin/files/latest/download -O postfixadmin.tar.gz
-tar xvf postfixadmin.tar.gz >/dev/null
+tar xf postfixadmin.tar.gz >/dev/null
 rm postfixadmin.tar.gz
 
 printf "\n"

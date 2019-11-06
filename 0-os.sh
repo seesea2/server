@@ -18,10 +18,10 @@ if [[ -f /usr/share/zoneinfo/${myTimeZone} ]]; then
 fi
 
 # set hostname
-echo ${myHost} >/etc/hostname
-hostname ${myHost}
+echo ${myDomain} >/etc/hostname
+hostname ${myDomain}
 
-echo "${myHost}" >/etc/mailname
+echo "${myDomain}" >/etc/mailname
 
 # upgrade OS and install basic tools
 echo ================= upgrade OS and install basic tools =================
