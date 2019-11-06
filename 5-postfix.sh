@@ -13,7 +13,7 @@ debconf-set-selections <<<"postfix postfix/main_mailer_type string 'Internet Sit
 apt-get install -y postfix postfix-mysql sasl2-bin
 service postfix start
 
-sed -i '/^START=no/s/START=yes/g' /etc/default/saslauthd
+sed -i 's/START=no/START=yes/g' /etc/default/saslauthd
 systemctl restart saslauthd
 
 printf '\n'
