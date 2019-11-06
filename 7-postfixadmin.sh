@@ -15,12 +15,12 @@ rm postfixadmin.tar.gz
 printf "\n"
 echo "======================= configure postfixadmin ======================="
 if [[ -d '/var/www/postfixadmin' ]]; then
-  rm -R /var/www/postfixadmin
+  rm -R /var/www/html/postfixadmin
 fi
-cp -f -R postfixadmin-*/ /var/www/postfixadmin
+cp -f -R postfixadmin-*/ /var/www/html/postfixadmin
 rm -R postfixadmin-*/
 
-cat >/var/www/postfixadmin/config.local.php <<EOF
+cat >/var/www/html/postfixadmin/config.local.php <<EOF
 <?php
   \$CONF['database_type'] = 'mysqli';
   \$CONF['database_user'] = '${myDbUser}';
@@ -32,7 +32,8 @@ cat >/var/www/postfixadmin/config.local.php <<EOF
 ?>
 EOF
 
-mkdir -p /var/www/postfixadmin/templates_c && chmod 755 -R /var/www/postfixadmin/templates_c
+mkdir -p /var/www/html/postfixadmin/templates_c
+chmod 755 -R /var/www/html/postfixadmin/templates_c
 chown -R www-data: /var/www
 
 {
@@ -43,7 +44,7 @@ chown -R www-data: /var/www
   echo "    ssl_certificate           /etc/letsencrypt/live/${myDomain}/fullchain.pem;"
   echo "    ssl_certificate_key       /etc/letsencrypt/live/${myDomain}/privkey.pem;"
   echo "    ssl_trusted_certificate   /etc/letsencrypt/live/${myDomain}/chain.pem;"
-  echo "    root /var/www/postfixadmin/public;"
+  echo "    root /var/www/html/postfixadmin/public;"
   echo "    index index.php;"
   echo "    location / {"
   echo '      try_files $uri $uri/ /index.php;'

@@ -27,4 +27,4 @@ sudo su -c ./7-postfixadmin.sh
 sudo su -c ./8-roundcube.sh
 
 # optional, install phpmyadmin for database management.
-sudo su -c ./9-phpmyadmin.sh
+# sudo su -c ./9-phpmyadmin.sh

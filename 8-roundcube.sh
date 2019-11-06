@@ -12,12 +12,12 @@ rm roundcube.tar.gz
 
 printf "\n"
 echo "======================= configure roundcube ======================="
-if [[ -d '/var/www/roundcube' ]]; then
-  rm -R /var/www/roundcube
+if [[ -d '/var/www/html/roundcube' ]]; then
+  rm -R /var/www/html/roundcube
 fi
-mv roundcube*/ /var/www/roundcube
+mv roundcube*/ /var/www/html/roundcube
 chown -R www-data: /var/www
-chmod 755 /var/www/roundcube/temp/ /var/www/roundcube/logs/
+chmod 755 /var/www/html/roundcube/temp/ /var/www/html/roundcube/logs/
 
 {
   echo "  server {"
@@ -27,7 +27,7 @@ chmod 755 /var/www/roundcube/temp/ /var/www/roundcube/logs/
   echo "    ssl_certificate           /etc/letsencrypt/live/${myDomain}/fullchain.pem;"
   echo "    ssl_certificate_key       /etc/letsencrypt/live/${myDomain}/privkey.pem;"
   echo "    ssl_trusted_certificate   /etc/letsencrypt/live/${myDomain}/chain.pem;"
-  echo "    root /var/www/roundcube;"
+  echo "    root /var/www/html/roundcube;"
   echo "    index index.php;"
   echo "    location / {"
   echo '      try_files $uri $uri/ /index.php;'
